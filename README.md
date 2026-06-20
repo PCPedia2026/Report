@@ -48,6 +48,7 @@
 | Versión |   Fecha    |                                                                                Participantes                                                                                 | Descripción de modificación |
 |:-------:|:----------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------|
 | AV1 | 2026-05-02 | Bendezu Navarro, Rúbens <br> Hernandez Poma, Sebastian Eduardo <br> Carranza Tesén, Joaquín Enrique <br> Arroyo Gonzales, Emily Juliette  | || |            |                                                                                                                                                                              | |
+| TB2 | 2026-06-20 | Bendezu Navarro, Rúbens | Incorporación del plan y diseño experimental de PcPedia: materia prima, preguntas experimentales, backlog priorizado, Experiment Cards e hipótesis. |
 
 </div>
 
@@ -202,6 +203,15 @@
   - [8.3.2. To-Be Product Backlog](#832-to-be-product-backlog)
 
 
+#### [Capítulo VIII: Experiment-Driven Development](#capítulo-viii-experiment-driven-development)
+- [8.1. Experiment Planning](#81-experiment-planning)
+  - [8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims](#812-raw-material-assumptions-knowledge-gaps-ideas-claims)
+  - [8.1.3. Experiment-Ready Questions](#813-experiment-ready-questions)
+  - [8.1.4. Question Backlog](#814-question-backlog)
+  - [8.1.5. Experiment Cards](#815-experiment-cards)
+- [8.2. Experiment Design](#82-experiment-design)
+  - [8.2.1. Hypotheses](#821-hypotheses)
+
 #### [Conclusiones](#conclusiones-1)
 
 #### [Recomendaciones](#recomendaciones-1)
@@ -227,8 +237,8 @@ grupo, que permiten sustentar el haber alcanzado el logro del ABET - EAC - Stude
 
 | Criterio específico | Acciones realizadas                                                                                                                                                                                                  | Conclusiones |
 |:---|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------|
-| **Identifica y evalúa las implicancias éticas y profesionales en el desarrollo de soluciones de ingeniería.** | **Bendezu Navarro Rúbens** <br> **AV1:**  <br><br> **Hernandez Poma Sebastian Eduardo** <br> **AV1:**  <br><br> **Carranza Tesén Joaquín Enrique** <br> **AV1:** Identifique que el desarrollo tecnológico conlleva una profunda responsabilidad ética y profesional vinculada directamente a la implementación, gestión de código y configuración del despliegue realizados. Al realizar la evaluación en el plano ético, determiné que el despliegue de las aplicaciones (Web, Móvil y API) bajo el Acuerdo de Servicio (SaaS) exige proteger la privacidad del usuario desde el backend y asegurar la transparencia de las funciones entregadas. Asimismo, al realizar el análisis en el ámbito profesional, se evidencia el compromiso de cumplir estrictamente con las guías de estilo, control de versiones y el flujo de los Sprint Backlogs, demostrando que la rigurosidad técnica y la colaboración del equipo son estándares críticos para mitigar errores en producción, garantizando un software mantenible, seguro y de alta calidad.  <br><br> **TP:** Identifique que el desarrollo de soluciones de ingeniería tecnológica conlleva una profunda responsabilidad ética y profesional que se vincula directamente con los procesos de diseño, validación y análisis heurístico realizados. Al realizar la evaluación en el plano ético, determiné que es imperativo garantizar la transparencia algorítmica en las herramientas de recomendación automatizadas (asegurando que respondan a la optimización real de costos del usuario y no a sesgos comerciales) y proteger con estricta confidencialidad los datos de infraestructura y presupuestos recopilados. Asimismo, al realizar el análisis en el ámbito profesional, se evidencia el compromiso de asegurar la continuidad operativa de los usuarios a través de flujos de despliegue y monitoreo robustos, entendiendo que corregir las fallas de usabilidad detectadas en las entrevistas y optimizar las interfaces (tanto web como móvil) no es un asunto estético, sino un estándar técnico crítico para mitigar riesgos, prevenir errores operativos y garantizar una gestión de recursos eficiente y segura. <br><br> **Arroyo Gonzales, Emily** <br> **AV1:** <br> | **Av1:**     |
-| **Analiza el impacto de las soluciones de ingeniería en contextos sociales, económicos y ambientales para tomar decisiones informadas.** | **Bendezu Navarro Rúbens** <br> **AV1:** <br><br> **Hernandez Poma Sebastian Eduardo** <br> **AV1:**  <br><br> **Carranza Tesén Joaquín Enrique** <br> **AV1:** Analice que el despliegue del producto —evidenciado en la Landing Page, las aplicaciones Web/Móvil y la API RESTful— genera un impacto multidimensional clave para la toma de decisiones informadas. Al realizar la evaluación en el contexto social, determiné que el uso de interfaces consistentes y guías de estilo estandarizadas reduce la brecha digital y democratiza el acceso técnico, mejorando la experiencia del usuario final en su entorno. En el plano económico, el análisis demuestra que una arquitectura modular y una correcta configuración de despliegue bajo el modelo SaaS reducen los costos de mantenimiento, optimizan el consumo de infraestructura en la nube y minimizan pérdidas financieras por fallas del sistema. Finalmente, al evaluar el impacto ambiental, se evidencia que la optimización del código fuente disminuye la carga de procesamiento en los servidores, reduciendo el consumo energético y la huella de carbono digital para lograr una solución sostenible. <br><br> **TP:** Analice que el desarrollo de soluciones de ingeniería tecnológica genera un impacto multidimensional que debe ser evaluado rigurosamente a partir del análisis heurístico y las validaciones con usuarios reales que hemos realizado. Al realizar la evaluación en el contexto social, determiné que optimizar la interfaz y corregir las fallas de usabilidad mitiga la frustración del usuario, reduce la brecha digital y democratiza el acceso eficiente a herramientas técnicas, promoviendo entornos laborales y educativos más productivos e inclusivos. En el plano económico, el análisis de los flujos operativos demuestra que una solución intuitiva minimiza los costos por errores de usuario, reduce los tiempos muertos de soporte técnico y optimiza la asignación de presupuestos mediante recomendaciones automatizadas y transparentes, garantizando un retorno de inversión sostenible. Finalmente, al evaluar el impacto ambiental, se evidencia que el monitoreo continuo de recursos y el correcto control del ciclo de vida de la infraestructura tecnológica contribuyen directamente a la reducción de la huella de carbono y previenen la obsolescencia acelerada, permitiendo tomar decisiones de ingeniería informadas que equilibran la eficiencia técnica con la responsabilidad social y la sostenibilidad del entorno.  <br><br> **Arroyo Gonzales, Emily** <br>**AV1:** <br>  |  **AV1:**            |
+| **Identifica y evalúa las implicancias éticas y profesionales en el desarrollo de soluciones de ingeniería.** | **Bendezu Navarro Rúbens** <br> **AV1:** <br><br> **TB2:** Diseñé el proceso experimental de PcPedia partiendo de supuestos, vacíos de conocimiento, ideas y afirmaciones que debían validarse antes de orientar nuevas decisiones del producto. Prioricé preguntas según su riesgo, impacto, interés y nivel de confianza, y definí Experiment Cards con criterios de éxito establecidos antes de recolectar datos. Asimismo, consideré el consentimiento informado, la minimización y anonimización de datos y la comunicación transparente de resultados favorables, desfavorables o inconclusos, evitando manipular evidencia para justificar decisiones previamente tomadas. <br><br> **Hernandez Poma Sebastian Eduardo** <br> **AV1:**  <br><br> **Carranza Tesén Joaquín Enrique** <br> **AV1:** Identifique que el desarrollo tecnológico conlleva una profunda responsabilidad ética y profesional vinculada directamente a la implementación, gestión de código y configuración del despliegue realizados. Al realizar la evaluación en el plano ético, determiné que el despliegue de las aplicaciones (Web, Móvil y API) bajo el Acuerdo de Servicio (SaaS) exige proteger la privacidad del usuario desde el backend y asegurar la transparencia de las funciones entregadas. Asimismo, al realizar el análisis en el ámbito profesional, se evidencia el compromiso de cumplir estrictamente con las guías de estilo, control de versiones y el flujo de los Sprint Backlogs, demostrando que la rigurosidad técnica y la colaboración del equipo son estándares críticos para mitigar errores en producción, garantizando un software mantenible, seguro y de alta calidad.  <br><br> **TP:** Identifique que el desarrollo de soluciones de ingeniería tecnológica conlleva una profunda responsabilidad ética y profesional que se vincula directamente con los procesos de diseño, validación y análisis heurístico realizados. Al realizar la evaluación en el plano ético, determiné que es imperativo garantizar la transparencia algorítmica en las herramientas de recomendación automatizadas (asegurando que respondan a la optimización real de costos del usuario y no a sesgos comerciales) y proteger con estricta confidencialidad los datos de infraestructura y presupuestos recopilados. Asimismo, al realizar el análisis en el ámbito profesional, se evidencia el compromiso de asegurar la continuidad operativa de los usuarios a través de flujos de despliegue y monitoreo robustos, entendiendo que corregir las fallas de usabilidad detectadas en las entrevistas y optimizar las interfaces (tanto web como móvil) no es un asunto estético, sino un estándar técnico crítico para mitigar riesgos, prevenir errores operativos y garantizar una gestión de recursos eficiente y segura. <br><br> **Arroyo Gonzales, Emily** <br> **AV1:** <br> | **AV1:** <br><br> **TB2:** El trabajo de Rúbens evidencia responsabilidad ética y profesional al convertir incertidumbres del producto en experimentos trazables, medibles y respetuosos de la privacidad. Definir previamente las métricas y condiciones reduce sesgos de confirmación y permite que las decisiones sobre PcPedia se fundamenten en evidencia verificable. |
+| **Analiza el impacto de las soluciones de ingeniería en contextos sociales, económicos y ambientales para tomar decisiones informadas.** | **Bendezu Navarro Rúbens** <br> **AV1:** <br><br> **TB2:** Analicé mediante hipótesis falsables cómo la recomendación guiada de equipos, la comparación transparente de planes y el seguimiento de incidencias pueden afectar la experiencia de los usuarios. En el ámbito social, los experimentos evalúan si la solución reduce barreras para personas con distinto conocimiento técnico; en el económico, si disminuye el tiempo y la incertidumbre al seleccionar tecnología; y en el ambiental, si favorece elecciones ajustadas a la necesidad real y prolonga el ciclo de vida de los equipos, evitando adquisiciones innecesarias. <br><br> **Hernandez Poma Sebastian Eduardo** <br> **AV1:**  <br><br> **Carranza Tesén Joaquín Enrique** <br> **AV1:** Analice que el despliegue del producto —evidenciado en la Landing Page, las aplicaciones Web/Móvil y la API RESTful— genera un impacto multidimensional clave para la toma de decisiones informadas. Al realizar la evaluación en el contexto social, determiné que el uso de interfaces consistentes y guías de estilo estandarizadas reduce la brecha digital y democratiza el acceso técnico, mejorando la experiencia del usuario final en su entorno. En el plano económico, el análisis demuestra que una arquitectura modular y una correcta configuración de despliegue bajo el modelo SaaS reducen los costos de mantenimiento, optimizan el consumo de infraestructura en la nube y minimizan pérdidas financieras por fallas del sistema. Finalmente, al evaluar el impacto ambiental, se evidencia que la optimización del código fuente disminuye la carga de procesamiento en los servidores, reduciendo el consumo energético y la huella de carbono digital para lograr una solución sostenible. <br><br> **TP:** Analice que el desarrollo de soluciones de ingeniería tecnológica genera un impacto multidimensional que debe ser evaluado rigurosamente a partir del análisis heurístico y las validaciones con usuarios reales que hemos realizado. Al realizar la evaluación en el contexto social, determiné que optimizar la interfaz y corregir las fallas de usabilidad mitiga la frustración del usuario, reduce la brecha digital y democratiza el acceso eficiente a herramientas técnicas, promoviendo entornos laborales y educativos más productivos e inclusivos. En el plano económico, el análisis de los flujos operativos demuestra que una solución intuitiva minimiza los costos por errores de usuario, reduce los tiempos muertos de soporte técnico y optimiza la asignación de presupuestos mediante recomendaciones automatizadas y transparentes, garantizando un retorno de inversión sostenible. Finalmente, al evaluar el impacto ambiental, se evidencia que el monitoreo continuo de recursos y el correcto control del ciclo de vida de la infraestructura tecnológica contribuyen directamente a la reducción de la huella de carbono y previenen la obsolescencia acelerada, permitiendo tomar decisiones de ingeniería informadas que equilibran la eficiencia técnica con la responsabilidad social y la sostenibilidad del entorno.  <br><br> **Arroyo Gonzales, Emily** <br>**AV1:** <br>  | **AV1:** <br><br> **TB2:** El aporte permite tomar decisiones informadas sobre PcPedia al vincular cada propuesta de mejora con indicadores observables. La experimentación planteada ayuda a equilibrar accesibilidad, eficiencia económica y consumo tecnológico responsable antes de invertir en cambios de mayor alcance. |
 
 ---
 
@@ -2951,6 +2961,145 @@ Con el fin de optimizar la plataforma y mejorar la satisfacción de los usuarios
 * Agilizar el proceso de reporte de incidencias reduciendo la cantidad de pasos requeridos para registrar solicitudes urgentes.
 * Implementar un panel de control con indicadores comparativos que permitan visualizar el ahorro acumulado obtenido mediante el modelo de arrendamiento.
 * Desarrollar un sistema de onboarding interactivo que facilite la adaptación y aprendizaje de los nuevos usuarios dentro de la plataforma.
+---
+
+<div align="center">
+
+# Capítulo VIII: Experiment-Driven Development
+
+</div>
+
+---
+
+## 8.1. Experiment Planning
+
+La planificación experimental de PcPedia transforma incertidumbres sobre el comportamiento y las necesidades de los usuarios en preguntas que puedan responderse con evidencia. Para esta etapa se recopilan supuestos, vacíos de conocimiento, ideas y afirmaciones relacionados con tres oportunidades de mejora: la recomendación de equipos, la comparación transparente de planes y el seguimiento de incidencias.
+
+### 8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims
+
+La materia prima se obtuvo de los artefactos de requisitos, los flujos actuales del producto y los problemas observados durante la validación. Cada elemento se redactó sin asumir que representa un hecho comprobado.
+
+| ID | Tipo | Materia prima | Oportunidad de aprendizaje |
+|:---:|:---|:---|:---|
+| RM01 | Assumption | Los usuarios con poco conocimiento técnico tardan más en elegir un equipo adecuado. | Comprobar si una recomendación guiada reduce el tiempo de selección. |
+| RM02 | Assumption | Mostrar demasiadas especificaciones técnicas incrementa la carga cognitiva. | Identificar qué información es indispensable para decidir. |
+| RM03 | Assumption | Los usuarios confían más en una recomendación cuando pueden conocer los criterios utilizados. | Evaluar la importancia de explicar el motivo de cada recomendación. |
+| RM04 | Knowledge Gap | No se conoce cuánto tiempo necesita actualmente un usuario para seleccionar un equipo. | Establecer una línea base de tiempo y errores de selección. |
+| RM05 | Knowledge Gap | No se sabe si los usuarios comprenden el costo total y las condiciones de cada plan. | Medir comprensión de precios, duración y servicios incluidos. |
+| RM06 | Knowledge Gap | No se conoce con qué frecuencia un cliente contacta a soporte solo para consultar el estado de una incidencia. | Estimar consultas evitables y necesidades de seguimiento. |
+| RM07 | Idea | Incorporar un asistente que recomiende equipos según presupuesto, uso y rendimiento esperado. | Comparar la selección guiada con la navegación convencional. |
+| RM08 | Idea | Presentar una comparación resumida de planes con costo total, beneficios y restricciones. | Evaluar si la tabla facilita decisiones correctas y transparentes. |
+| RM09 | Idea | Añadir una línea de tiempo de incidencias con estado, responsable y próxima actualización. | Evaluar si el seguimiento reduce incertidumbre y consultas repetitivas. |
+| RM10 | Claim | La recomendación automatizada permitirá elegir equipos más rápido y con mayor confianza. | Cuantificar el cambio en tiempo y confianza percibida. |
+| RM11 | Claim | Una comparación transparente aumentará la comprensión de los planes de leasing. | Medir respuestas correctas sobre costos y condiciones. |
+| RM12 | Claim | Visualizar el avance de una incidencia reducirá los contactos de seguimiento a soporte. | Comparar la cantidad de consultas con y sin trazabilidad visible. |
+
+### 8.1.3. Experiment-Ready Questions
+
+Los elementos anteriores se convirtieron en preguntas mediante 5W+2H (What, Why, Who, Where, When, How y How much). Las preguntas se mantienen neutrales para evitar dirigir el resultado y se clasifican como exploratorias o basadas en una creencia previa.
+
+| ID | Origen | Pregunta preparada para experimentar | Tipo | Valor de la respuesta |
+|:---:|:---:|:---|:---:|:---|
+| Q01 | RM01, RM04, RM07, RM10 | ¿Cómo cambia el tiempo que requieren los responsables de TI de pequeñas organizaciones para elegir un equipo cuando usan una recomendación guiada en PcPedia, frente al catálogo convencional, durante una tarea de selección con presupuesto limitado? | Belief-led | Determinar si se debe priorizar el asistente de recomendación. |
+| Q02 | RM05, RM08, RM11 | ¿En qué medida una comparación que muestre costo total, duración, beneficios y restricciones mejora la comprensión de los planes de leasing durante la evaluación de alternativas? | Belief-led | Definir la presentación de precios y condiciones. |
+| Q03 | RM06, RM09, RM12 | ¿Cuántas consultas de seguimiento a soporte podrían evitar los clientes si PcPedia mostrara el estado, responsable y próxima actualización de cada incidencia? | Belief-led | Decidir si la trazabilidad debe formar parte del flujo principal. |
+| Q04 | RM02 | ¿Qué especificaciones consultan primero los usuarios y cuáles omiten cuando comparan equipos para una necesidad concreta? | Exploratory | Simplificar las fichas sin eliminar información relevante. |
+| Q05 | RM03 | ¿Por qué y en qué momento los usuarios necesitan conocer los criterios que originaron una recomendación de equipo? | Exploratory | Diseñar explicaciones que generen confianza sin saturar la interfaz. |
+| Q06 | RM04 | ¿Dónde se producen más abandonos o retrocesos durante el recorrido actual de búsqueda, comparación y selección? | Exploratory | Localizar los puntos de fricción del flujo vigente. |
+| Q07 | RM05 | ¿Qué términos relacionados con leasing, costos y condiciones generan más interpretaciones incorrectas? | Exploratory | Mejorar etiquetas y contenido de ayuda contextual. |
+| Q08 | RM06 | ¿Cuándo considera un cliente que ha esperado demasiado tiempo sin recibir información sobre una incidencia? | Exploratory | Establecer expectativas y frecuencia de notificaciones. |
+
+### 8.1.4. Question Backlog
+
+Las preguntas se priorizan en una escala de 1 a 5. Una puntuación mayor representa mayor respaldo preliminar de la creencia en **Confidence**, mayor exposición si la decisión resulta incorrecta en **Risk**, mayor efecto esperado en usuarios o negocio en **Impact**, y mayor valor de aprendizaje en **Interest**. El puntaje máximo es 20.
+
+| Prioridad | ID | Confidence | Risk | Impact | Interest | Total | Estado |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|
+| 1 | Q01 | 5 | 5 | 5 | 5 | 20 | Seleccionada |
+| 2 | Q02 | 4 | 5 | 5 | 5 | 19 | Seleccionada |
+| 3 | Q03 | 4 | 4 | 5 | 5 | 18 | Seleccionada |
+| 4 | Q05 | 4 | 4 | 4 | 5 | 17 | Backlog |
+| 5 | Q04 | 3 | 4 | 4 | 5 | 16 | Backlog |
+| 6 | Q06 | 3 | 4 | 4 | 4 | 15 | Backlog |
+| 7 | Q07 | 3 | 3 | 4 | 4 | 14 | Backlog |
+| 8 | Q08 | 3 | 3 | 3 | 4 | 13 | Backlog |
+
+### 8.1.5. Experiment Cards
+
+Las tres preguntas con mayor puntuación se desarrollan mediante Experiment Cards. Los criterios de éxito se establecen antes de recopilar datos para evitar reinterpretar los resultados según las expectativas del equipo.
+
+#### Experiment Card EC01: Recomendación guiada de equipos
+
+| Campo | Definición |
+|:---|:---|
+| **Question** | ¿Cómo cambia el tiempo de selección cuando se utiliza una recomendación guiada en lugar del catálogo convencional? |
+| **Why** | Una selección lenta o incorrecta puede ocasionar abandono, sobrecostos y adquisición de equipos que no responden a la necesidad real. |
+| **Hypothesis** | La recomendación guiada reducirá al menos 20% la mediana del tiempo de selección respecto del catálogo convencional. |
+| **Simplest useful thing / What** | Prototipo navegable que solicita presupuesto, tipo de uso y rendimiento, y devuelve tres alternativas justificadas. |
+| **Method** | Prueba comparativa intra-sujeto: cada participante completa una tarea con el catálogo y otra equivalente con el asistente; el orden se asigna aleatoriamente. |
+| **Measures** | Tiempo hasta seleccionar un equipo, cantidad de retrocesos, adecuación de la elección al escenario y confianza declarada de 1 a 5. |
+| **Conditions** | Mismos escenarios, presupuesto, catálogo y dispositivo; instrucciones neutrales y sin ayuda del moderador durante la tarea. |
+| **Scale** | 20 responsables o usuarios que participen en decisiones tecnológicas de pequeñas empresas o instituciones educativas. |
+| **Decision rule** | Priorizar el asistente si reduce la mediana del tiempo al menos 20% sin disminuir la adecuación de la elección. |
+| **Ethics** | Consentimiento informado, datos anonimizados y posibilidad de abandonar la prueba sin consecuencias. |
+
+#### Experiment Card EC02: Comparación transparente de planes
+
+| Campo | Definición |
+|:---|:---|
+| **Question** | ¿En qué medida una comparación detallada mejora la comprensión de los planes de leasing? |
+| **Why** | Una interpretación equivocada del costo o las restricciones afecta la confianza y puede originar decisiones económicas inadecuadas. |
+| **Hypothesis** | La nueva comparación incrementará en más de 15 puntos porcentuales la proporción de usuarios que identifica correctamente el costo total del plan. |
+| **Simplest useful thing / What** | Dos variantes de una pantalla: presentación actual y tabla comparativa con costo total, duración, servicios, restricciones y ayuda contextual. |
+| **Method** | Prueba A/B moderada con asignación aleatoria; cada participante responde el mismo cuestionario de comprensión después de revisar una variante. |
+| **Measures** | Porcentaje de respuestas correctas, tiempo de decisión, dudas expresadas e intención de solicitar información. |
+| **Conditions** | Mismos planes, precios, textos base, dispositivo y límite de tiempo; solo cambia la organización de la información. |
+| **Scale** | 20 participantes, distribuidos equitativamente entre las variantes A y B. |
+| **Decision rule** | Adoptar la tabla si la comprensión correcta aumenta más de 15 puntos porcentuales y el tiempo no empeora más de 10%. |
+| **Ethics** | Usar precios ficticios claramente identificados y no recopilar datos financieros personales. |
+
+#### Experiment Card EC03: Seguimiento visible de incidencias
+
+| Campo | Definición |
+|:---|:---|
+| **Question** | ¿Cuántas consultas de seguimiento pueden evitarse al mostrar el avance de una incidencia? |
+| **Why** | La falta de información genera incertidumbre para el cliente y carga operativa innecesaria para soporte. |
+| **Hypothesis** | Una línea de tiempo visible reducirá al menos 25% la mediana de consultas de estado realizadas durante un escenario de soporte. |
+| **Simplest useful thing / What** | Prototipo de detalle de incidencia con estado, responsable, historial, próxima actualización y opción de notificación. |
+| **Method** | Simulación comparativa intra-sujeto con dos incidencias equivalentes: una con información básica y otra con trazabilidad completa. |
+| **Measures** | Cantidad de intentos de contacto, tiempo para encontrar el estado, comprensión del siguiente paso y confianza percibida. |
+| **Conditions** | Mismo tiempo de espera simulado, severidad y dispositivo; el orden de las variantes se contrabalancea. |
+| **Scale** | 20 usuarios que hayan solicitado soporte técnico o gestionado incidencias tecnológicas. |
+| **Decision rule** | Priorizar la trazabilidad si reduce las consultas al menos 25% y 80% de participantes identifica el estado en 30 segundos o menos. |
+| **Ethics** | Casos ficticios, sin datos reales de tickets ni información identificable de clientes. |
+
+## 8.2. Experiment Design
+
+El diseño experimental convierte las tres preguntas priorizadas en proposiciones falsables. Cada hipótesis establece una variable independiente, una métrica principal y un umbral de decisión que permite confirmar o rechazar la expectativa del equipo con los datos obtenidos.
+
+### 8.2.1. Hypotheses
+
+#### H01: Recomendación guiada y tiempo de selección
+
+- **Variable independiente:** flujo de selección utilizado (catálogo convencional o recomendación guiada).
+- **Variable dependiente:** mediana del tiempo requerido para seleccionar un equipo adecuado.
+- **Hipótesis nula (H0₁):** la mediana del tiempo con recomendación guiada es mayor o igual al 80% de la mediana obtenida con el catálogo convencional; por lo tanto, la reducción es menor al 20%.
+- **Hipótesis alternativa (H1₁):** la mediana del tiempo con recomendación guiada es menor al 80% de la mediana obtenida con el catálogo convencional; por lo tanto, la reducción es de al menos 20%.
+
+#### H02: Comparación de planes y comprensión del costo total
+
+- **Variable independiente:** presentación de los planes (actual o tabla comparativa transparente).
+- **Variable dependiente:** proporción de participantes que identifica correctamente el costo total del plan.
+- **Hipótesis nula (H0₂):** la proporción de respuestas correctas con la tabla comparativa no supera en más de 15 puntos porcentuales la obtenida con la presentación actual.
+- **Hipótesis alternativa (H1₂):** la proporción de respuestas correctas con la tabla comparativa supera en más de 15 puntos porcentuales la obtenida con la presentación actual.
+
+#### H03: Trazabilidad de incidencias y consultas de seguimiento
+
+- **Variable independiente:** nivel de información visible de la incidencia (información básica o línea de tiempo completa).
+- **Variable dependiente:** mediana de intentos de contacto o consultas de estado durante el escenario.
+- **Hipótesis nula (H0₃):** la mediana de consultas con trazabilidad completa es mayor o igual al 75% de la mediana registrada con información básica; por lo tanto, la reducción es menor al 25%.
+- **Hipótesis alternativa (H1₃):** la mediana de consultas con trazabilidad completa es menor al 75% de la mediana registrada con información básica; por lo tanto, la reducción es de al menos 25%.
+
 ---
 
 ## Conclusiones
