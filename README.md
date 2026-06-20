@@ -3243,7 +3243,7 @@ Backlog priorizado de las historias to-be, en escala de Fibonacci (consistente c
 
 ---
 
-### Evidencia de Implementación (Sprint 5, avance real)
+### Evidencia de Implementación 
 
 Como evidencia de que el diseño de experimentos no quedó solo en documentación, se implementó en código lo siguiente sobre los repositorios reales de PCPedia:
 
