@@ -202,16 +202,6 @@
   - [8.3.1. To-Be User Stories.](#831-to-be-user-stories)
   - [8.3.2. To-Be Product Backlog](#832-to-be-product-backlog)
 
-
-#### [Capítulo VIII: Experiment-Driven Development](#capítulo-viii-experiment-driven-development)
-- [8.1. Experiment Planning](#81-experiment-planning)
-  - [8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims](#812-raw-material-assumptions-knowledge-gaps-ideas-claims)
-  - [8.1.3. Experiment-Ready Questions](#813-experiment-ready-questions)
-  - [8.1.4. Question Backlog](#814-question-backlog)
-  - [8.1.5. Experiment Cards](#815-experiment-cards)
-- [8.2. Experiment Design](#82-experiment-design)
-  - [8.2.1. Hypotheses](#821-hypotheses)
-
 #### [Conclusiones](#conclusiones-1)
 
 #### [Recomendaciones](#recomendaciones-1)
@@ -2963,18 +2953,6 @@ Con el fin de optimizar la plataforma y mejorar la satisfacción de los usuarios
 * Desarrollar un sistema de onboarding interactivo que facilite la adaptación y aprendizaje de los nuevos usuarios dentro de la plataforma.
 ---
 
-<div align="center">
-
-# Capítulo VIII: Experiment-Driven Development
-
-</div>
-
----
-
-## 8.1. Experiment Planning
-
-La planificación experimental de PcPedia transforma incertidumbres sobre el comportamiento y las necesidades de los usuarios en preguntas que puedan responderse con evidencia. Para esta etapa se recopilan supuestos, vacíos de conocimiento, ideas y afirmaciones relacionados con tres oportunidades de mejora: la recomendación de equipos, la comparación transparente de planes y el seguimiento de incidencias.
-
 ### 8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims
 
 La materia prima se obtuvo de los artefactos de requisitos, los flujos actuales del producto y los problemas observados durante la validación. Cada elemento se redactó sin asumir que representa un hecho comprobado.
@@ -3072,6 +3050,8 @@ Las tres preguntas con mayor puntuación se desarrollan mediante Experiment Card
 | **Scale** | 20 usuarios que hayan solicitado soporte técnico o gestionado incidencias tecnológicas. |
 | **Decision rule** | Priorizar la trazabilidad si reduce las consultas al menos 25% y 80% de participantes identifica el estado en 30 segundos o menos. |
 | **Ethics** | Casos ficticios, sin datos reales de tickets ni información identificable de clientes. |
+
+--- 
 
 ## 8.2. Experiment Design
 
