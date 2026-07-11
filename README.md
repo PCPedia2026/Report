@@ -3319,6 +3319,9 @@ El diseño de las entrevistas se estructuró en base a un cuestionario directo e
     *   ¿Consideras que firmar digitalmente el contrato agiliza significativamente la adquisición de los equipos?
 *   **Sobre la Pasarela de Pagos (H05):**
     *   ¿Los recordatorios automáticos de facturación son útiles para evitar retrasos en los pagos de tu institución?
+*   **Sobre el Asistente Conversacional / Chatbot (H06):**
+    *   ¿Encontraste útil el widget del chat para resolver tus dudas iniciales o preferiste ignorarlo?
+    *   ¿Sientes que el chatbot respondió tus consultas lo suficientemente bien como para no tener que agendar una reunión?
 
 #### 8.3.4.2. Registro de Entrevistas.
 
