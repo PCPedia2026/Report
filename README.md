@@ -49,6 +49,7 @@
 |:-------:|:----------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------|
 | AV1 | 2026-05-02 | Bendezu Navarro, Rúbens <br> Hernandez Poma, Sebastian Eduardo <br> Carranza Tesén, Joaquín Enrique <br> Arroyo Gonzales, Emily Juliette  | || |            |                                                                                                                                                                              | |
 | TB2 | 2026-06-20 | Bendezu Navarro, Rúbens | Incorporación del plan y diseño experimental de PcPedia: materia prima, preguntas experimentales, backlog priorizado, Experiment Cards e hipótesis. |
+| Sprint 4 | 2026-07-11 | Bendezu Navarro, Rúbens | Compleción del ciclo Experiment-Driven Development del Capítulo VIII: sprint backlog To-Be, evidencias por plataforma, análisis posterior, repriorización, aprendizaje continuo, pre-launch y matriz ética/de impacto. |
 
 </div>
 
@@ -197,9 +198,9 @@
   - [8.2.4. Conditions](#824-conditions)
   - [8.2.5. Scale Calculations and Decisions.](#825-scale-calculations-and-decisions)
   - [8.2.6 Methods Selection.](#826-methods-selection)
-  - [8.2.7. Data Analytics: Goals, KPIs and Metrics Selection.](#827-data-analytics-goals-kpi-and-metrics)
+  - [8.2.7. Data Analytics: Goals, KPIs and Metrics Selection.](#827-data-analytics-goals-kpis-and-metrics-selection)
   - [8.2.8. Web and Mobile Tracking Plan](#828-web-and-mobile-tracking-plan)
-- [8.3. Experimentation](#83-experiment-planning)
+- [8.3. Experimentation](#83-experimentation)
   - [8.3.1. To-Be User Stories.](#831-to-be-user-stories)
   - [8.3.2. To-Be Product Backlog](#832-to-be-product-backlog)
   - [8.3.3. Pipeline-supported, Experiment-Driven To-Be Software Platform Lifecycle](#833-pipeline-supported-experiment-driven-to-be-software-platform-lifecycle)
@@ -219,7 +220,7 @@
   - [8.5.1. Shareback Session Artifacts: Learning Workflow](#851-shareback-session-artifacts-learning-workflow)
 - [8.6. To-Be Software Platform Pre-launch](#86-to-be-software-platform-pre-launch)
   - [8.6.1. About-the-Product Intro Video](#861-about-the-product-intro-video)
-- [Matriz de Evaluación Etica y de Impacto](#matriz-de-evaluacion-etica-y-de-impacto)
+- [Matriz de Evaluación Ética y de Impacto](#matriz-de-evaluación-ética-y-de-impacto)
 
 #### [Conclusiones](#conclusiones-1)
 
@@ -3263,15 +3264,96 @@ Backlog priorizado de las historias to-be, en escala de Fibonacci (consistente c
 
 ### 8.3.3. Pipeline-supported, Experiment-Driven To-Be Software Platform Lifecycle
 
+Esta sección documenta la ejecución del ciclo To-Be de PcPedia bajo un enfoque de Experiment-Driven Development. El objetivo del Sprint 4 fue convertir las hipótesis priorizadas en cambios verificables del producto, manteniendo trazabilidad entre preguntas experimentales, historias de usuario, componentes implementados, métricas y decisiones posteriores.
+
+La ejecución se apoyó en los repositorios y despliegues ya descritos en los capítulos V y VII: Landing Page en GitHub Pages, aplicación web Angular en Netlify y API RESTful Java/Spring Boot en Azure App Service con base de datos MySQL. Para no comprometer la estabilidad de la versión As-Is, los cambios To-Be se trataron como incrementos experimentales y se evaluaron mediante entrevistas guiadas, eventos de analítica y evidencia funcional.
+
 #### 8.3.3.1. To-Be Sprint Backlogs
+
+**Sprint Planning 4 (To-Be)**
+
+| Campo | Valor |
+|---|---|
+| Sprint | Sprint 4 (To-Be) |
+| Fecha de planificación | 2026-07-11 |
+| Modalidad | Virtual |
+| Preparado por | Bendezu Navarro, Rúbens |
+| Participantes | Equipo PcPedia / EcatLeasing |
+| Sprint Goal | Ejecutar los experimentos To-Be del Capítulo VIII para validar si la recomendación guiada, la comparación transparente de planes, la trazabilidad de incidencias, la firma digital, los recordatorios de pago y el chatbot mejoran la toma de decisiones, la confianza y la continuidad operativa de los clientes. |
+| Criterio de cierre | Cada experimento debe contar con una historia trazable, evidencia funcional, métrica asociada y una decisión de continuidad, iteración o descarte. |
+
+**Sprint Backlog 4 (To-Be)**
+
+| ID | User Story relacionada | Work Item / Task | Hipótesis | Estimación (h) | Responsable | Estado |
+|:---:|---|---|:---:|:---:|---|:---:|
+| WI01 | HU15 | Redactar perfil institucional y casos de éxito para reforzar confianza antes de cotizar. | H01 | 3 | Equipo frontend | Done |
+| WI02 | HU16 | Implementar acceso visible a ubicación, teléfono, correo, horario y mapa de EcatLeasing. | H01 | 2 | Equipo frontend | Done |
+| WI03 | HU17 | Definir disponibilidad visible de equipos y criterios de recomendación por presupuesto, uso y rendimiento. | H01 | 4 | Equipo frontend/backend | Done |
+| WI04 | HU18 | Diseñar panel de trazabilidad de tickets con estado, responsable, historial y próxima actualización. | H03 | 4 | Equipo frontend | Done |
+| WI05 | HU18 | Preparar evento `ticket_status_view` y medición de intentos de contacto posteriores. | H03 | 2 | Equipo frontend | Done |
+| WI06 | HU19 | Documentar flujo To-Be de revisión y aprobación digital de cotizaciones/contratos. | H04 | 3 | Equipo producto | Done |
+| WI07 | HU20 | Definir recordatorios automáticos de pago y reglas de vencimiento para clientes activos. | H05 | 3 | Equipo backend | Done |
+| WI08 | HU21 | Diseñar cuestionario mínimo del chatbot para dudas frecuentes de planes, equipos y soporte. | H06 | 4 | Equipo frontend | Done |
+| WI09 | HU15-HU21 | Registrar trazabilidad entre features, métricas, eventos GA4 y reglas de decisión. | H01-H06 | 3 | Bendezu Navarro, Rúbens | Done |
+| WI10 | HU15-HU21 | Consolidar resultados, repriorizar backlog y formular aprendizajes del ciclo experimental. | H01-H06 | 4 | Bendezu Navarro, Rúbens | Done |
+
+El backlog prioriza primero las mejoras de bajo esfuerzo y alta capacidad de aprendizaje: contacto verificable, trazabilidad de tickets y comparación de planes. Las funcionalidades con mayor dependencia técnica, como firma digital y chatbot, se mantienen como apuestas To-Be validadas por percepción antes de escalar su implementación completa.
 
 #### 8.3.3.2. Implemented To-Be Landing Page Evidence
 
+La Landing Page se mantiene como punto de entrada del ecosistema PcPedia y fue usada como superficie experimental para reforzar confianza, explicar el valor del arrendamiento tecnológico y dirigir a los usuarios hacia cotización o contacto. La evidencia To-Be se concentra en la claridad comercial y en la reducción de incertidumbre previa a iniciar una solicitud.
+
+| Elemento To-Be | Evidencia funcional | Hipótesis relacionada | Métrica esperada |
+|---|---|:---:|---|
+| Perfil institucional de EcatLeasing | Sección con propuesta de valor, beneficios del leasing y orientación a empresas/instituciones educativas. | H01 | Aumento de confianza declarada antes de cotizar. |
+| Canales de contacto visibles | Dirección, teléfono, correo, horario y mapa enlazados desde la navegación principal. | H01 | Reducción del tiempo para encontrar contacto comercial. |
+| Explicación de planes y beneficios | Presentación resumida de servicios, soporte, mantenimiento y condiciones de contratación. | H02 | Mayor comprensión del costo total y alcance del plan. |
+| Acceso a soporte y preguntas frecuentes | Contenido orientado a resolver dudas iniciales sin depender de atención manual inmediata. | H06 | Menor abandono en la fase de consulta inicial. |
+
+La Landing Page desplegada se conserva en GitHub Pages: https://1asi0729-7401-2520-ecatleasing-pcpedia.github.io/Landing-Page-PcPedia/
+
 #### 8.3.3.3. Implemented To-Be Frontend-Web Application Evidence
+
+La aplicación web de PcPedia, desplegada en Netlify, concentra la mayor parte de los tratamientos experimentales porque allí ocurren las decisiones principales del usuario: explorar equipos, comparar condiciones, gestionar contratos, reportar incidencias y consultar pagos.
+
+| Experimento | Evidencia en frontend web | Evento / señal de medición | Decisión experimental |
+|---|---|---|---|
+| Recomendación guiada de equipos | Flujo To-Be para orientar la selección según perfil de uso, presupuesto y rendimiento esperado. | `recommendation_started`, `recommendation_completed`, tiempo hasta selección. | Escalar si reduce la mediana de selección al menos 20% sin reducir adecuación. |
+| Comparación transparente de planes | Vista de planes con costo total, duración, beneficios, restricciones y soporte incluido. | `plan_compared`, respuestas correctas sobre costos. | Adoptar si aumenta comprensión en más de 15 puntos porcentuales. |
+| Trazabilidad de incidencias | Vista de detalle de ticket con estado, responsable, historial y próxima actualización. | `ticket_status_view`, intentos de contacto posteriores. | Priorizar si reduce consultas al menos 25%. |
+| Firma digital / aprobación de cotización | Flujo documentado para revisar términos y aprobar la contratación dentro de la plataforma. | `quote_reviewed`, `contract_approved`. | Implementar integración completa si reduce fricción comercial. |
+| Recordatorios de pago | Pantallas y reglas To-Be para alertar vencimientos y evitar moras. | `payment_reminder_viewed`, pagos dentro de fecha. | Mantener si mejora puntualidad sin saturar al cliente. |
+| Chatbot de dudas frecuentes | Widget To-Be para consultas iniciales sobre planes, equipos y soporte. | `chatbot_opened`, `chatbot_resolution`. | Iterar si no reduce abandono o si deriva demasiadas conversaciones a humano. |
+
+El frontend desplegado se mantiene en Netlify: https://pcpedia.netlify.app
 
 #### 8.3.3.4. Implemented To-Be Native-Mobile Application Evidence
 
+PcPedia cuenta con diseño UX/UI móvil y prototipos Android/iOS documentados en el Capítulo IV. Para este Sprint 4, la validación To-Be se realizó principalmente sobre la aplicación web responsive, por lo que la evidencia nativa móvil se registra como alineamiento de experiencia y preparación de implementación, no como publicación de una app nativa en tiendas.
+
+| Aspecto móvil To-Be | Evidencia considerada | Relación con el experimento |
+|---|---|---|
+| Selección de equipos en pantallas pequeñas | Prototipos móviles con tarjetas de equipos, filtros compactos y lectura priorizada de especificaciones. | H01: reduce carga cognitiva al elegir equipos. |
+| Comparación de planes | Diseño responsive de tablas o bloques apilados para costo total, duración y beneficios. | H02: evita que la información financiera se pierda en móvil. |
+| Seguimiento de incidencias | Flujo móvil de ticket con estado visible, historial y próxima actualización. | H03: permite consultar avance sin contactar soporte. |
+| Recordatorios de pago | Notificaciones y mensajes de vencimiento preparados para una futura app móvil. | H05: soporta prevención de mora y continuidad de servicio. |
+| Chatbot | Acceso flotante o sección de ayuda con tamaño táctil adecuado. | H06: reduce fricción en consultas iniciales. |
+
+La decisión del sprint fue no introducir una app nativa nueva durante la validación para evitar dispersar el esfuerzo experimental. La siguiente iteración puede transformar estos prototipos en builds Android/iOS si las señales del canal web justifican la inversión.
+
 #### 8.3.3.5. Implemented To-Be RESTful API and/or Serverless Backend Evidence
+
+El backend Java/Spring Boot de PcPedia sostiene los datos críticos del ciclo experimental: usuarios, catálogo, contratos, tickets, pagos y eventos asociados. La evidencia To-Be se concentra en preparar endpoints y entidades para que las métricas no dependan únicamente de percepción declarada.
+
+| Componente backend | Evidencia To-Be | Hipótesis | Uso en medición |
+|---|---|:---:|---|
+| Catálogo / equipos | Datos de disponibilidad, categoría y características técnicas para alimentar recomendación guiada. | H01 | Adecuación de la selección y reducción de tiempo. |
+| Contratos / cotizaciones | Registro de revisión, aprobación y condiciones asociadas al plan. | H02, H04 | Comprensión de costos y ciclo Lead-to-Contract. |
+| Tickets / soporte | Campo `satisfactionScore`, método de calificación y endpoint `PATCH /api/tickets/{id}/rate`. | H03 | CSAT, trazabilidad y consultas evitadas. |
+| Pagos / facturación | Reglas de vencimiento y estado de pago para activar recordatorios. | H05 | DSO, pagos a tiempo y reducción de mora. |
+| Auditoría / analítica | Eventos de negocio complementarios a GA4 para acciones que ocurren en entidades del dominio. | H01-H06 | Cruce entre comportamiento frontend y cambios reales de estado. |
+
+La API desplegada se encuentra documentada mediante Swagger en el entorno de producción del backend: https://pcpediaapi-egd4b8frh3bqcsde.canadacentral-01.azurewebsites.net/swagger-ui/index.html
 
 #### 8.3.3.6. Team Collaboration Insights
 
@@ -3294,6 +3376,8 @@ Como evidencia de que el diseño de experimentos no quedó solo en documentació
 | Columna `satisfaction_score` | Generada automáticamente por Hibernate (`ddl-auto=update`) |
 
 **Pendiente para que H3 (CSAT) sea medible con datos reales:** conectar el endpoint `rate` a un modal en el frontend que aparezca al cerrar un ticket, capture el score real del cliente y lo envíe tanto al backend como al evento `ticket_resolved` (que hoy va con `satisfaction_score: 0` de placeholder). Sin ese modal, el backend ya puede recibir calificaciones, pero nada en la UI las dispara todavía.
+
+El aprendizaje principal del equipo es que la documentación experimental debe avanzar junto con la implementación. Cuando una métrica se define antes que el componente que la captura, el equipo puede detectar vacíos de instrumentación temprano, como ocurrió con la calificación real de tickets. Esto evita declarar hipótesis como validadas sin una fuente de datos suficiente.
 
 ---
 
@@ -3349,19 +3433,86 @@ A continuación, se detalla el análisis respondiendo directamente a cada interr
 | **H02:** ¿La tabla comparativa transparente mejora la comprensión del costo total del **contrato SaaS**? | **Landing Page y Módulo de Suscripciones > Pricing:** Sección de "Planes" donde se desglosan los Tiers del servicio antes de iniciar el onboarding. | **APROBADO** | Los Jefes de Compras entendieron claramente el modelo de suscripción. Mostrar los features y límites de cada plan del contrato SaaS incrementó la comprensión en más de 15 puntos porcentuales (H1₂). |
 | **H03:** ¿La **trazabilidad completa** reduce las consultas de seguimiento de incidencias? | **Módulo de Soporte > Panel de Trazabilidad de Tickets:** Vista de detalle que se abre al hacer clic sobre un ticket activo en el dashboard del cliente. | **APROBADO** | Al disponer de un historial visual del estado del equipo (reportado, en revisión, técnico en camino), la necesidad del usuario de contactar a soporte disminuyó notablemente, reduciendo el volumen de consultas (H1₃). |
 | **H04:** ¿La firma digital en plataforma reduce el ciclo de venta a menos de 10 días? | **Módulo de Contratos (Contracts) > Vista de Cotizaciones:** Panel administrativo donde el usuario aprueba los términos y firma el **contrato SaaS** digitalmente. | **APROBADO** | Al no depender de correos externos ni firmas físicas, el flujo *Lead-to-Contract* se agilizó de manera drástica, validando la hipótesis de eficiencia comercial. |
+| **H05:** ¿Los recordatorios automáticos de pago reducen retrasos y consultas administrativas? | **Módulo de Pagos / Facturación:** Alertas To-Be de vencimiento y estado de pago para clientes con contrato activo. | **APROBADO CON SEGUIMIENTO** | Los usuarios valoraron recibir avisos antes del vencimiento, pero la métrica requiere observar pagos reales por más ciclos de facturación. Se mantiene como experimento activo. |
 | **H06:** ¿El asistente conversacional reduce la tasa de abandono en la fase de consulta inicial? | **Landing Page > Widget de Chat Flotante:** Ubicado en la esquina inferior derecha de todas las pantallas públicas. | **RECHAZADO** (Iterar) | Aunque útil, los clientes corporativos prefirieron agendar una reunión directa en lugar de usar el bot. La reducción de abandono no alcanzó el 10% mínimo. Se debe iterar el guion del bot o enfocarlo solo a soporte post-venta. |
 
 ### 8.4.2. Re-scored and Re-prioritized Question Backlog
+
+Después de analizar las entrevistas To-Be y la evidencia funcional, el Question Backlog se volvió a puntuar. El objetivo no fue premiar las ideas que "salieron bien", sino decidir qué debe escalarse, qué debe seguir midiéndose y qué debe reformularse.
+
+| Nueva prioridad | ID | Pregunta / hipótesis | Confidence | Risk | Impact | Interest | Total | Decisión |
+|:---:|:---:|---|:---:|:---:|:---:|:---:|:---:|---|
+| 1 | H03 | Trazabilidad visible de incidencias y reducción de consultas de soporte. | 5 | 5 | 5 | 5 | 20 | Escalar y conectar CSAT real. |
+| 2 | H02 | Comparación transparente de planes y comprensión del costo total. | 5 | 4 | 5 | 5 | 19 | Mantener como patrón de diseño comercial. |
+| 3 | H01 | Recomendación guiada de equipos y reducción del tiempo de selección. | 4 | 5 | 5 | 5 | 19 | Implementar versión completa con datos reales de catálogo. |
+| 4 | H05 | Recordatorios de pago y reducción de morosidad o consultas administrativas. | 4 | 4 | 4 | 4 | 16 | Medir durante más ciclos de facturación. |
+| 5 | H04 | Firma digital y reducción del ciclo Lead-to-Contract. | 3 | 4 | 5 | 4 | 16 | Validar factibilidad legal/técnica antes de escalar. |
+| 6 | H06 | Chatbot y reducción de abandono en consulta inicial. | 2 | 3 | 3 | 4 | 12 | Iterar guion o reenfocar a soporte post-venta. |
+
+La repriorización desplaza la trazabilidad de incidencias al primer lugar porque combina alto impacto operativo, baja ambigüedad para el usuario y una ruta clara de instrumentación. El chatbot queda al final porque la validación mostró preferencia por contacto humano en decisiones B2B de mayor valor.
 
 ## 8.5. Continuous Learning
 
 ### 8.5.1. Shareback Session Artifacts: Learning Workflow
 
+La sesión de shareback del Sprint 4 permitió cerrar el ciclo Build-Measure-Learn con una lectura conjunta de evidencias. El equipo revisó las entrevistas, los eventos disponibles, la trazabilidad técnica y los riesgos de sesgo antes de decidir qué funcionalidades pasarían a la siguiente iteración.
+
+| Etapa | Actividad | Artefacto generado | Aprendizaje |
+|---|---|---|---|
+| Build | Consolidar prototipos y evidencias To-Be por plataforma. | Sprint Backlog 4 y tablas de evidencia. | No todos los tratamientos requieren el mismo nivel de implementación para aprender. |
+| Measure | Revisar entrevistas, métricas de comprensión, intención de contacto y señales de uso. | Tabla de análisis 8.4.1 y backlog repriorizado. | La trazabilidad de tickets produce aprendizaje más accionable que el chatbot inicial. |
+| Learn | Decidir escalar, iterar o descartar cada apuesta. | Reglas de decisión por hipótesis. | PcPedia debe priorizar transparencia y control antes que automatización conversacional. |
+| Shareback | Comunicar hallazgos, límites y próximos pasos al equipo. | Matriz ética/de impacto y recomendaciones. | Reportar resultados negativos también protege la calidad de decisión del producto. |
+
+**Learning Workflow aplicado**
+
+1. Recoger datos mínimos de cada experimento.
+2. Separar evidencia observada de interpretación del equipo.
+3. Comparar resultados contra la regla de decisión definida antes de la prueba.
+4. Repriorizar el backlog con Confidence, Risk, Impact e Interest.
+5. Registrar limitaciones, riesgos éticos y acciones pendientes.
+6. Llevar la siguiente iteración solo a las funcionalidades con aprendizaje suficiente.
+
 ## 8.6. To-Be Software Platform Pre-launch
 
 ### 8.6.1. About-the-Product Intro Video
 
-## Matriz de Evaluación Etica y de Impacto
+El pre-launch de PcPedia requiere presentar el producto de forma clara, verificable y alineada con los experimentos validados. El video About-the-Product debe explicar qué problema resuelve EcatLeasing, cómo PcPedia reduce incertidumbre en la contratación tecnológica y qué evidencias respaldan las decisiones de diseño.
+
+**Guion propuesto del video**
+
+| Bloque | Contenido | Evidencia conectada |
+|---|---|---|
+| 1. Problema | Empresas e instituciones necesitan arrendar equipos sin perder tiempo comparando especificaciones, planes y soporte. | As-Is Summary y Raw Material. |
+| 2. Solución | PcPedia centraliza catálogo, contratos, pagos, incidencias y control de activos. | Capítulos V y VII. |
+| 3. Diferenciador experimental | Las mejoras To-Be se priorizan mediante hipótesis, métricas y validación con usuarios. | Capítulo VIII. |
+| 4. Flujos principales | Recomendación guiada, comparación de planes, trazabilidad de tickets y recordatorios de pago. | 8.3.3 y 8.4.1. |
+| 5. Aprendizaje | El equipo decide con evidencia: escala trazabilidad y comparación; itera chatbot. | 8.4.2 y 8.5.1. |
+| 6. Cierre | Invitación a validar la plataforma y continuar midiendo impacto social, económico y ambiental. | Matriz ética/de impacto. |
+
+**Criterios de pre-launch**
+
+| Criterio | Estado | Observación |
+|---|:---:|---|
+| Landing Page disponible | Cumplido | GitHub Pages funciona como entrada pública. |
+| Frontend web disponible | Cumplido | Netlify expone la aplicación PcPedia. |
+| Backend documentado | Cumplido | Swagger permite verificar endpoints REST. |
+| Métricas principales definidas | Cumplido | GA4 y eventos de dominio cubren los experimentos. |
+| Riesgos éticos identificados | Cumplido | Se documenta tratamiento responsable de datos y transparencia. |
+| Experimentos pendientes de medición real | En seguimiento | CSAT real de tickets y chatbot requieren más instrumentación. |
+
+## Matriz de Evaluación Ética y de Impacto
+
+| Dimensión | Riesgo u oportunidad | Nivel | Mitigación / decisión de ingeniería | Evidencia |
+|---|---|:---:|---|---|
+| Privacidad de datos | Los experimentos pueden recolectar preferencias, presupuestos, tickets y comportamiento de navegación. | Riesgo medio | Minimizar datos, anonimizar respuestas de entrevistas y separar métricas agregadas de información personal. | 8.1.5, 8.2.8, 8.3.4 |
+| Transparencia algorítmica | La recomendación guiada podría inducir decisiones si no explica criterios. | Riesgo medio | Mostrar criterios usados: presupuesto, uso, rendimiento y disponibilidad; evitar priorizar equipos por interés comercial no declarado. | H01, EC01 |
+| Impacto económico | Una comparación incompleta de planes puede llevar a costos mal entendidos. | Riesgo alto mitigado | Presentar costo total, duración, beneficios, restricciones y soporte incluido antes de contratar. | H02, 8.4.1 |
+| Continuidad operativa | Tickets sin trazabilidad aumentan incertidumbre y presión sobre soporte. | Impacto positivo | Priorizar línea de tiempo de incidencias, responsable y próxima actualización. | H03, 8.4.2 |
+| Inclusión social | Usuarios con menor conocimiento técnico pueden sentirse excluidos por especificaciones complejas. | Impacto positivo | Diseñar recomendación guiada, lenguaje claro y flujos móviles legibles. | 8.1.2, 8.3.3.4 |
+| Impacto ambiental | Elegir equipos sobredimensionados acelera consumo innecesario de recursos tecnológicos. | Impacto positivo | Recomendar equipos ajustados a necesidad real y promover arrendamiento con gestión de ciclo de vida. | H01, métricas de dominio |
+| Integridad del reporte | El equipo podría reportar solo resultados favorables. | Riesgo medio mitigado | Registrar también hipótesis rechazadas o pendientes, como el chatbot y CSAT real de tickets. | 8.4.1, 8.4.2 |
+| Seguridad profesional | Contratos, pagos y tickets involucran información sensible del negocio. | Riesgo alto mitigado | Mantener roles, validaciones backend, endpoints documentados y despliegue monitoreado. | Capítulos V, VII y 8.3.3.5 |
 
 ---
 
