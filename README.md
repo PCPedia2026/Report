@@ -3303,15 +3303,22 @@ Para la validación de las propuestas de valor y funcionalidades To-Be de EcatLe
 
 #### 8.3.4.1. Diseño de Entrevistas.
 
-El diseño de las entrevistas se estructuró para simular el *Customer Journey* de un cliente corporativo dentro de la plataforma. 
+El diseño de las entrevistas se estructuró en base a un cuestionario directo enfocado en validar nuestras hipótesis principales. Tras interactuar con las nuevas funcionalidades en el entorno de pruebas, se formularon las siguientes preguntas a los usuarios:
 
-*   **Objetivo:** Comprobar estadísticamente (mediante las métricas de éxito) si las nuevas características (features) lograban cumplir las hipótesis nulas o alternativas de la sección 8.2.1.
-*   **Perfil del Entrevistado:** Gerentes de TI, Jefes de Compras y Administradores de instituciones (quienes toman la decisión sobre los contratos SaaS).
-*   **Entorno (El Montaje):** Las pruebas se realizaron en un entorno controlado (Staging) donde el software estaba montado con datos simulados de equipos y contratos.
-*   **Estructura de la Sesión (45 min):**
-    1.  **Contextualización:** Explicación del modelo de negocio (arrendamiento tecnológico SaaS).
-    2.  **Ejecución de Tareas:** Se solicitó al usuario que utilizara features específicos (ej. solicitar una recomendación de equipos, revisar la tabla de planes SaaS, buscar el estado de un ticket).
-    3.  **Cierre y Feedback:** Preguntas abiertas sobre la usabilidad y claridad de los términos del servicio.
+*   **Sobre la Recomendación Guiada (H01):**
+    *   ¿Sientes que el asistente de recomendación te ayudó a encontrar un equipo más rápido que navegando por el catálogo completo?
+    *   ¿Las preguntas de filtrado (rol del empleado, tipo de uso) fueron claras y acertadas para tu necesidad?
+*   **Sobre la Comparación de Planes (Contrato SaaS) (H02):**
+    *   Al ver la tabla comparativa, ¿te queda claro qué beneficios de soporte y mantenimiento incluye cada plan?
+    *   ¿Consideras que la presentación actual te ayuda a calcular el costo total de tu contrato SaaS con mayor precisión?
+*   **Sobre la Trazabilidad de Incidencias (H03):**
+    *   ¿La línea de tiempo visible en el detalle del ticket te brinda suficiente información sobre el estado de tu reporte?
+    *   Con esta información a la vista, ¿sentirías la necesidad de contactar al área de soporte para pedir actualizaciones?
+*   **Sobre el Ciclo de Venta y Firma Digital (H04):**
+    *   ¿Qué tan intuitivo te pareció el proceso de revisar y aprobar la cotización directamente en la plataforma?
+    *   ¿Consideras que firmar digitalmente el contrato agiliza significativamente la adquisición de los equipos?
+*   **Sobre la Pasarela de Pagos (H05):**
+    *   ¿Los recordatorios automáticos de facturación son útiles para evitar retrasos en los pagos de tu institución?
 
 #### 8.3.4.2. Registro de Entrevistas.
 
