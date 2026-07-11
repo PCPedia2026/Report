@@ -202,6 +202,24 @@
 - [8.3. Experimentation](#83-experiment-planning)
   - [8.3.1. To-Be User Stories.](#831-to-be-user-stories)
   - [8.3.2. To-Be Product Backlog](#832-to-be-product-backlog)
+  - [8.3.3. Pipeline-supported, Experiment-Driven To-Be Software Platform Lifecycle](#833-pipeline-supported-experiment-driven-to-be-software-platform-lifecycle)
+    - [8.3.3.1. To-Be Sprint Backlogs](#8331-to-be-sprint-backlogs)
+    - [8.3.3.2. Implemented To-Be Landing Page Evidence](#8332-implemented-to-be-landing-page-evidence)
+    - [8.3.3.3. Implemented To-Be Frontend-Web Application Evidence](#8333-implemented-to-be-frontend-web-application-evidence)
+    - [8.3.3.4. Implemented To-Be Native-Mobile Application Evidence](#8334-implemented-to-be-native-mobile-application-evidence)
+    - [8.3.3.5. Implemented To-Be RESTful API and/or Serverless Backend Evidence](#8335-implemented-to-be-restful-api-andor-serverless-backend-evidence)
+    - [8.3.3.6. Team Collaboration Insights](#8336-team-collaboration-insights)
+  - [8.3.4. To-Be Validation Interviews](#834-to-be-validation-interviews)
+    - [8.3.4.1. Diseño de Entrevistas.](#8341-diseño-de-entrevistas)
+    - [8.3.4.2. Registro de Entrevistas.](#8342-registro-de-entrevistas)
+- [8.4. Experiment Aftermath & Analysis](#84-experiment-aftermath--analysis)
+  - [8.4.1. Analysis and Interpretation of Results](#841-analysis-and-interpretation-of-results)
+  - [8.4.2. Re-scored and Re-prioritized Question Backlog](#842-re-scored-and-re-prioritized-question-backlog)
+- [8.5. Continuous Learning](#85-continuous-learning)
+  - [8.5.1. Shareback Session Artifacts: Learning Workflow](#851-shareback-session-artifacts-learning-workflow)
+- [8.6. To-Be Software Platform Pre-launch](#86-to-be-software-platform-pre-launch)
+  - [8.6.1. About-the-Product Intro Video](#861-about-the-product-intro-video)
+- [Matriz de Evaluación Etica y de Impacto](#matriz-de-evaluacion-etica-y-de-impacto)
 
 #### [Conclusiones](#conclusiones-1)
 
@@ -3243,7 +3261,19 @@ Backlog priorizado de las historias to-be, en escala de Fibonacci (consistente c
 
 ---
 
-### Evidencia de Implementación 
+### 8.3.3. Pipeline-supported, Experiment-Driven To-Be Software Platform Lifecycle
+
+#### 8.3.3.1. To-Be Sprint Backlogs
+
+#### 8.3.3.2. Implemented To-Be Landing Page Evidence
+
+#### 8.3.3.3. Implemented To-Be Frontend-Web Application Evidence
+
+#### 8.3.3.4. Implemented To-Be Native-Mobile Application Evidence
+
+#### 8.3.3.5. Implemented To-Be RESTful API and/or Serverless Backend Evidence
+
+#### 8.3.3.6. Team Collaboration Insights
 
 Como evidencia de que el diseño de experimentos no quedó solo en documentación, se implementó en código lo siguiente sobre los repositorios reales de PCPedia:
 
@@ -3305,11 +3335,23 @@ A continuación, se detalla el análisis respondiendo directamente a cada interr
 
 | Question Backlog (Hipótesis evaluada) | ¿Dónde están los Features en el Software? | Veredicto | Análisis e Interpretación de Resultados |
 | :--- | :--- | :--- | :--- |
-| **H01:** ¿La **recomendación guiada** reduce el tiempo de selección de equipos en al menos un 20%? | **Módulo de Catálogo > Asistente de Recomendación:** Accesible desde el dashboard principal mediante el botón "Recomendar Equipos". | ✅ **APROBADO** | Los usuarios redujeron su tiempo de búsqueda significativamente frente al catálogo tradicional. El flujo guiado permitió filtrar rápidamente según el rol del empleado, confirmando la Hipótesis Alternativa (H1₁). |
-| **H02:** ¿La tabla comparativa transparente mejora la comprensión del costo total del **contrato SaaS**? | **Landing Page y Módulo de Suscripciones > Pricing:** Sección de "Planes" donde se desglosan los Tiers del servicio antes de iniciar el onboarding. | ✅ **APROBADO** | Los Jefes de Compras entendieron claramente el modelo de suscripción. Mostrar los features y límites de cada plan del contrato SaaS incrementó la comprensión en más de 15 puntos porcentuales (H1₂). |
-| **H03:** ¿La **trazabilidad completa** reduce las consultas de seguimiento de incidencias? | **Módulo de Soporte > Panel de Trazabilidad de Tickets:** Vista de detalle que se abre al hacer clic sobre un ticket activo en el dashboard del cliente. | ✅ **APROBADO** | Al disponer de un historial visual del estado del equipo (reportado, en revisión, técnico en camino), la necesidad del usuario de contactar a soporte disminuyó notablemente, reduciendo el volumen de consultas (H1₃). |
-| **H04:** ¿La firma digital en plataforma reduce el ciclo de venta a menos de 10 días? | **Módulo de Contratos (Contracts) > Vista de Cotizaciones:** Panel administrativo donde el usuario aprueba los términos y firma el **contrato SaaS** digitalmente. | ✅ **APROBADO** | Al no depender de correos externos ni firmas físicas, el flujo *Lead-to-Contract* se agilizó de manera drástica, validando la hipótesis de eficiencia comercial. |
-| **H06:** ¿El asistente conversacional reduce la tasa de abandono en la fase de consulta inicial? | **Landing Page > Widget de Chat Flotante:** Ubicado en la esquina inferior derecha de todas las pantallas públicas. | ❌ **RECHAZADO** (Iterar) | Aunque útil, los clientes corporativos prefirieron agendar una reunión directa en lugar de usar el bot. La reducción de abandono no alcanzó el 10% mínimo. Se debe iterar el guion del bot o enfocarlo solo a soporte post-venta. |
+| **H01:** ¿La **recomendación guiada** reduce el tiempo de selección de equipos en al menos un 20%? | **Módulo de Catálogo > Asistente de Recomendación:** Accesible desde el dashboard principal mediante el botón "Recomendar Equipos". | **APROBADO** | Los usuarios redujeron su tiempo de búsqueda significativamente frente al catálogo tradicional. El flujo guiado permitió filtrar rápidamente según el rol del empleado, confirmando la Hipótesis Alternativa (H1₁). |
+| **H02:** ¿La tabla comparativa transparente mejora la comprensión del costo total del **contrato SaaS**? | **Landing Page y Módulo de Suscripciones > Pricing:** Sección de "Planes" donde se desglosan los Tiers del servicio antes de iniciar el onboarding. | **APROBADO** | Los Jefes de Compras entendieron claramente el modelo de suscripción. Mostrar los features y límites de cada plan del contrato SaaS incrementó la comprensión en más de 15 puntos porcentuales (H1₂). |
+| **H03:** ¿La **trazabilidad completa** reduce las consultas de seguimiento de incidencias? | **Módulo de Soporte > Panel de Trazabilidad de Tickets:** Vista de detalle que se abre al hacer clic sobre un ticket activo en el dashboard del cliente. | **APROBADO** | Al disponer de un historial visual del estado del equipo (reportado, en revisión, técnico en camino), la necesidad del usuario de contactar a soporte disminuyó notablemente, reduciendo el volumen de consultas (H1₃). |
+| **H04:** ¿La firma digital en plataforma reduce el ciclo de venta a menos de 10 días? | **Módulo de Contratos (Contracts) > Vista de Cotizaciones:** Panel administrativo donde el usuario aprueba los términos y firma el **contrato SaaS** digitalmente. | **APROBADO** | Al no depender de correos externos ni firmas físicas, el flujo *Lead-to-Contract* se agilizó de manera drástica, validando la hipótesis de eficiencia comercial. |
+| **H06:** ¿El asistente conversacional reduce la tasa de abandono en la fase de consulta inicial? | **Landing Page > Widget de Chat Flotante:** Ubicado en la esquina inferior derecha de todas las pantallas públicas. | **RECHAZADO** (Iterar) | Aunque útil, los clientes corporativos prefirieron agendar una reunión directa en lugar de usar el bot. La reducción de abandono no alcanzó el 10% mínimo. Se debe iterar el guion del bot o enfocarlo solo a soporte post-venta. |
+
+### 8.4.2. Re-scored and Re-prioritized Question Backlog
+
+## 8.5. Continuous Learning
+
+### 8.5.1. Shareback Session Artifacts: Learning Workflow
+
+## 8.6. To-Be Software Platform Pre-launch
+
+### 8.6.1. About-the-Product Intro Video
+
+## Matriz de Evaluación Etica y de Impacto
 
 ---
 
