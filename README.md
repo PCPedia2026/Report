@@ -3436,7 +3436,7 @@ El trabajo colaborativo permitió reforzar las buenas prácticas de desarrollo: 
 
 ## Video About-The-Team
 
-**URL de video About-The-Team** [AboutTheTeam](https://youtu.be/qiV-ZW8_nnM)
+**URL de video About-The-Team** [AboutTheTeam](https://youtu.be/uUttbZC6aEo)
 ---
 
 
