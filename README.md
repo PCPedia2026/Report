@@ -2950,325 +2950,251 @@ El pipeline de notificaciones de PcPedia centraliza la comunicación automática
 
 #### 8.1.1. As-Is Summary
 
-Nuestra plataforma, está diseñada para gestionar servicios de arrendamiento tecnológico dirigidos a empresas e instituciones educativas. Actualmente, cuenta con funcionalidades como autenticación de usuarios, catálogo de equipos, administración de contratos, registro de incidencias, gestión de pagos y control de activos tecnológicos. Su interfaz frontend fue desarrollada en Angular y se encuentra alojada en Netlify, mientras que el backend utiliza Java con Spring Boot desplegado en Azure App Service, apoyándose en una base de datos MySQL alojada en Railway.
+PcPedia / EcatLeasing cuenta con una plataforma orientada al arrendamiento de equipos tecnológicos para empresas. El producto ya integra catálogo, solicitudes, cotizaciones, contratos, facturas, pagos e incidencias, por lo que el ciclo experimental de Sprint 4 se enfoca en validar si estas capacidades reducen fricción comercial y operativa antes de escalar nuevas funcionalidades.
 
-### Situación actual de la plataforma
+| Capa observada | Evidencia del producto | Funcionalidades disponibles | Oportunidad experimental |
+| --- | --- | --- | --- |
+| Frontend cliente | `FrontPcPedia/src/app/features/client/pages/catalog`, `quotes`, `contracts`, `invoices`, `tickets` | Consulta de catálogo, solicitud de equipos, revisión de cotizaciones, contratos, facturas y tickets. | Medir si la guía de selección, comparación de planes y trazabilidad reducen incertidumbre. |
+| Frontend administrador | `FrontPcPedia/src/app/features/admin/pages/quotes`, `contracts`, `invoices`, `payments`, `tickets` | Gestión de cotizaciones, creación de contratos, control de facturas, registro de pagos y soporte. | Validar si los flujos administrativos reducen errores y tiempos de atención. |
+| Backend API | `BackPcPedia/src/main/java/com/pcpedia/api/*/interfaces/rest` | Endpoints REST para catálogo, requests, quotes, contracts, tickets, invoices y payments. | Instrumentar eventos y estados para contrastar métricas de negocio. |
+| Negocio B2B | Propuesta de leasing tecnológico para empresas | Comparación de equipos, planes, contratos, pagos e incidencias. | Priorizar decisiones basadas en evidencia y no solo en percepción del equipo. |
 
-La solución permite a los clientes consultar el catálogo de equipos disponibles, administrar sus contratos vigentes, reportar problemas técnicos y monitorear el estado de sus pagos. No obstante, se han identificado algunos aspectos susceptibles de mejora:
+Situación actual:
 
-* **Desempeño:** Algunas secciones, especialmente aquellas relacionadas con reportes y visualización gráfica de activos, presentan tiempos de carga superiores a tres segundos en conexiones de baja velocidad, lo que impacta negativamente la experiencia del usuario.
-* **Experiencia de usuario:** La plataforma carece de un proceso de introducción o guía interactiva para usuarios nuevos, dificultando la familiarización con módulos como Contratos, Informes y Perfil.
-* **Atención de incidencias:** El proceso para registrar problemas técnicos implica varios pasos previos antes de acceder al formulario principal, lo que puede resultar poco práctico en situaciones que requieren atención inmediata.
-* **Escasa personalización:** Actualmente no existen mecanismos de notificación automática que informen a los usuarios sobre vencimientos de contratos, renovaciones próximas o mantenimientos programados.
-* **Análisis financiero limitado:** Los reportes muestran información básica sobre los activos, pero no incluyen indicadores comparativos que permitan evaluar los beneficios económicos del arrendamiento frente a la adquisición directa de equipos.
-
-### Oportunidades de mejora
-
-Con el fin de optimizar la plataforma y mejorar la satisfacción de los usuarios, se plantean los siguientes objetivos:
-
-* Disminuir los tiempos de carga del módulo de reportes a menos de dos segundos mediante la optimización de consultas y la implementación de técnicas como lazy loading.
-* Incorporar un sistema de notificaciones inteligentes que informe oportunamente sobre vencimientos contractuales y mantenimientos programados.
-* Agilizar el proceso de reporte de incidencias reduciendo la cantidad de pasos requeridos para registrar solicitudes urgentes.
-* Implementar un panel de control con indicadores comparativos que permitan visualizar el ahorro acumulado obtenido mediante el modelo de arrendamiento.
-* Desarrollar un sistema de onboarding interactivo que facilite la adaptación y aprendizaje de los nuevos usuarios dentro de la plataforma.
----
+- Los usuarios pueden revisar equipos y generar solicitudes, pero la decisión de qué equipo o plan conviene sigue dependiendo de comparación manual.
+- Las cotizaciones muestran montos, equipos, vigencia y términos, aunque se necesita validar si el usuario entiende costo total y condiciones antes de aceptar.
+- Los tickets poseen estados y comentarios; la hipótesis es que una trazabilidad más visible reduce contactos repetidos al soporte.
+- La creación de contratos desde cotizaciones aceptadas existe en backend y administración web, por lo que puede medirse el tiempo entre aceptación y contrato.
+- Las facturas pendientes y vencidas se muestran para registro de pagos, pero debe validarse si la priorización reduce errores y retrasos.
 
 ### 8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims
 
-La materia prima se obtuvo de los artefactos de requisitos, los flujos actuales del producto y los problemas observados durante la validación. Cada elemento se redactó sin asumir que representa un hecho comprobado.
-
-| ID | Tipo | Materia prima | Oportunidad de aprendizaje |
-|:---:|:---|:---|:---|
-| RM01 | Assumption | Los usuarios con poco conocimiento técnico tardan más en elegir un equipo adecuado. | Comprobar si una recomendación guiada reduce el tiempo de selección. |
-| RM02 | Assumption | Mostrar demasiadas especificaciones técnicas incrementa la carga cognitiva. | Identificar qué información es indispensable para decidir. |
-| RM03 | Assumption | Los usuarios confían más en una recomendación cuando pueden conocer los criterios utilizados. | Evaluar la importancia de explicar el motivo de cada recomendación. |
-| RM04 | Knowledge Gap | No se conoce cuánto tiempo necesita actualmente un usuario para seleccionar un equipo. | Establecer una línea base de tiempo y errores de selección. |
-| RM05 | Knowledge Gap | No se sabe si los usuarios comprenden el costo total y las condiciones de cada plan. | Medir comprensión de precios, duración y servicios incluidos. |
-| RM06 | Knowledge Gap | No se conoce con qué frecuencia un cliente contacta a soporte solo para consultar el estado de una incidencia. | Estimar consultas evitables y necesidades de seguimiento. |
-| RM07 | Idea | Incorporar un asistente que recomiende equipos según presupuesto, uso y rendimiento esperado. | Comparar la selección guiada con la navegación convencional. |
-| RM08 | Idea | Presentar una comparación resumida de planes con costo total, beneficios y restricciones. | Evaluar si la tabla facilita decisiones correctas y transparentes. |
-| RM09 | Idea | Añadir una línea de tiempo de incidencias con estado, responsable y próxima actualización. | Evaluar si el seguimiento reduce incertidumbre y consultas repetitivas. |
-| RM10 | Claim | La recomendación automatizada permitirá elegir equipos más rápido y con mayor confianza. | Cuantificar el cambio en tiempo y confianza percibida. |
-| RM11 | Claim | Una comparación transparente aumentará la comprensión de los planes de leasing. | Medir respuestas correctas sobre costos y condiciones. |
-| RM12 | Claim | Visualizar el avance de una incidencia reducirá los contactos de seguimiento a soporte. | Comparar la cantidad de consultas con y sin trazabilidad visible. |
+| ID | Tipo | Raw material | Relación con PcPedia |
+| --- | --- | --- | --- |
+| RM01 | Assumption | Las pymes prefieren una recomendación guiada antes que revisar todo el catálogo. | Catálogo y solicitud de equipos. |
+| RM02 | Knowledge gap | No se conoce cuánto tiempo invierte un prospecto en decidir equipo sin filtros orientados al negocio. | Selección de laptops, desktops y periféricos. |
+| RM03 | Idea | Incorporar preguntas sobre cantidad de usuarios, presupuesto y uso esperado para sugerir equipos. | Recomendación de equipos. |
+| RM04 | Claim | Una recomendación más clara aumenta la intención de solicitar cotización. | Conversión catálogo -> request. |
+| RM05 | Assumption | Los clientes no aceptan cotizaciones cuando no entienden costo mensual, costo total, vigencia y términos. | Comparación de planes. |
+| RM06 | Knowledge gap | No se tiene evidencia de qué campo de la cotización genera mayor duda. | Detalle de quote. |
+| RM07 | Idea | Mostrar comparación de planes con subtotal, total, duración, equipos incluidos y condiciones visibles. | Cotización transparente. |
+| RM08 | Claim | La comparación transparente reduce solicitudes de aclaración antes de aceptar. | Quote acceptance. |
+| RM09 | Assumption | La incertidumbre sobre tickets aumenta llamadas, correos o contactos repetidos. | Seguimiento de incidencias. |
+| RM10 | Knowledge gap | No se sabe si el cliente entiende el estado real del ticket ni el siguiente paso. | Tickets y comentarios. |
+| RM11 | Idea | Presentar línea de tiempo de estados y comentarios recientes del soporte. | Trazabilidad de tickets. |
+| RM12 | Claim | Ver estado, responsable y fecha de actualización reduce contactos repetidos. | Soporte postventa. |
+| RM13 | Assumption | Si la aceptación de cotización y creación de contrato no son continuas, el cierre comercial se retrasa. | Quotes y contracts. |
+| RM14 | Knowledge gap | No se mide el tiempo real entre cotización aceptada y contrato generado. | Conversión comercial. |
+| RM15 | Idea | Flujo administrativo que permita crear contrato desde una quote aceptada con datos precargados. | Contratos. |
+| RM16 | Claim | Precargar datos reduce errores de digitación y acelera el cierre. | Administración web. |
+| RM17 | Assumption | Las facturas vencidas requieren priorización visual para evitar pagos mal registrados o tardíos. | Invoices y payments. |
+| RM18 | Idea | Mostrar facturas pendientes/vencidas ordenadas por fecha, monto y estado antes de registrar pago. | Pagos. |
+| RM19 | Claim | Seleccionar factura desde una lista priorizada reduce errores de monto y referencia. | Registro de pagos. |
 
 ### 8.1.3. Experiment-Ready Questions
 
-Los elementos anteriores se convirtieron en preguntas mediante 5W+2H (What, Why, Who, Where, When, How y How much). Las preguntas se mantienen neutrales para evitar dirigir el resultado y se clasifican como exploratorias o basadas en una creencia previa.
-
-| ID | Origen | Pregunta preparada para experimentar | Tipo | Valor de la respuesta |
-|:---:|:---:|:---|:---:|:---|
-| Q01 | RM01, RM04, RM07, RM10 | ¿Cómo cambia el tiempo que requieren los responsables de TI de pequeñas organizaciones para elegir un equipo cuando usan una recomendación guiada en PcPedia, frente al catálogo convencional, durante una tarea de selección con presupuesto limitado? | Belief-led | Determinar si se debe priorizar el asistente de recomendación. |
-| Q02 | RM05, RM08, RM11 | ¿En qué medida una comparación que muestre costo total, duración, beneficios y restricciones mejora la comprensión de los planes de leasing durante la evaluación de alternativas? | Belief-led | Definir la presentación de precios y condiciones. |
-| Q03 | RM06, RM09, RM12 | ¿Cuántas consultas de seguimiento a soporte podrían evitar los clientes si PcPedia mostrara el estado, responsable y próxima actualización de cada incidencia? | Belief-led | Decidir si la trazabilidad debe formar parte del flujo principal. |
-| Q04 | RM02 | ¿Qué especificaciones consultan primero los usuarios y cuáles omiten cuando comparan equipos para una necesidad concreta? | Exploratory | Simplificar las fichas sin eliminar información relevante. |
-| Q05 | RM03 | ¿Por qué y en qué momento los usuarios necesitan conocer los criterios que originaron una recomendación de equipo? | Exploratory | Diseñar explicaciones que generen confianza sin saturar la interfaz. |
-| Q06 | RM04 | ¿Dónde se producen más abandonos o retrocesos durante el recorrido actual de búsqueda, comparación y selección? | Exploratory | Localizar los puntos de fricción del flujo vigente. |
-| Q07 | RM05 | ¿Qué términos relacionados con leasing, costos y condiciones generan más interpretaciones incorrectas? | Exploratory | Mejorar etiquetas y contenido de ayuda contextual. |
-| Q08 | RM06 | ¿Cuándo considera un cliente que ha esperado demasiado tiempo sin recibir información sobre una incidencia? | Exploratory | Establecer expectativas y frecuencia de notificaciones. |
+| ID | Pregunta experimental 5W+2H | Card asociada | Estado |
+| --- | --- | --- | --- |
+| Q01 | ¿Cómo cambia el tiempo de selección cuando un responsable de TI usa una recomendación guiada para elegir equipos en PcPedia? | EC01 | Seleccionada |
+| Q02 | ¿Qué tanto mejora la comprensión de una cotización cuando el cliente compara planes, costos y condiciones en una vista transparente? | EC02 | Seleccionada |
+| Q03 | ¿Cuánto disminuye el contacto repetido al soporte cuando el cliente visualiza estado, comentarios y avance de su ticket? | EC03 | Seleccionada |
+| Q04 | ¿Cuánto se reduce el tiempo entre aceptar una cotización y generar el contrato cuando la administración usa datos precargados? | EC04 | Seleccionada |
+| Q05 | ¿Cuánto bajan los errores de registro cuando el administrador selecciona pagos desde facturas pendientes o vencidas priorizadas? | EC05 | Seleccionada |
+| Q06 | ¿Qué segmento empresarial necesita más asesoría humana antes de solicitar equipos? | Exploratoria | Backlog |
+| Q07 | ¿Qué indicadores debe ver gerencia para anticipar renovaciones y mora? | Exploratoria | Backlog |
+| Q08 | ¿Qué tipo de evidencia contractual aumenta más confianza: términos, historial o resumen financiero? | Exploratoria | Backlog |
 
 ### 8.1.4. Question Backlog
 
-Las preguntas se priorizan en una escala de 1 a 5. Una puntuación mayor representa mayor respaldo preliminar de la creencia en **Confidence**, mayor exposición si la decisión resulta incorrecta en **Risk**, mayor efecto esperado en usuarios o negocio en **Impact**, y mayor valor de aprendizaje en **Interest**. El puntaje máximo es 20.
-
-| Prioridad | ID | Confidence | Risk | Impact | Interest | Total | Estado |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|
-| 1 | Q01 | 5 | 5 | 5 | 5 | 20 | Seleccionada |
-| 2 | Q02 | 4 | 5 | 5 | 5 | 19 | Seleccionada |
-| 3 | Q03 | 4 | 4 | 5 | 5 | 18 | Seleccionada |
-| 4 | Q05 | 4 | 4 | 4 | 5 | 17 | Backlog |
-| 5 | Q04 | 3 | 4 | 4 | 5 | 16 | Backlog |
-| 6 | Q06 | 3 | 4 | 4 | 4 | 15 | Backlog |
-| 7 | Q07 | 3 | 3 | 4 | 4 | 14 | Backlog |
-| 8 | Q08 | 3 | 3 | 3 | 4 | 13 | Backlog |
+| Rank | ID | Pregunta | Confidence | Risk | Impact | Interest | Total | Decisión |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Q01 | Recomendación guiada de equipos. | 5 | 5 | 5 | 5 | 20 | Ejecutar EC01 |
+| 2 | Q02 | Comparación transparente de planes. | 5 | 4 | 5 | 5 | 19 | Ejecutar EC02 |
+| 3 | Q03 | Trazabilidad visible de incidencias. | 4 | 5 | 5 | 5 | 19 | Ejecutar EC03 |
+| 4 | Q04 | Aceptación de quote y contrato precargado. | 4 | 4 | 5 | 4 | 17 | Ejecutar EC04 |
+| 5 | Q05 | Priorización de facturas y registro de pago. | 4 | 4 | 4 | 4 | 16 | Ejecutar EC05 |
+| 6 | Q06 | Segmentos que requieren asesoría humana. | 3 | 4 | 4 | 5 | 16 | Mantener |
+| 7 | Q07 | Indicadores gerenciales para renovaciones y mora. | 3 | 3 | 5 | 4 | 15 | Mantener |
+| 8 | Q08 | Evidencia contractual de confianza. | 3 | 3 | 4 | 4 | 14 | Mantener |
 
 ### 8.1.5. Experiment Cards
 
-Las preguntas con mayor puntuación y las apuestas To-Be ya soportadas por el código de PcPedia se desarrollan mediante Experiment Cards. Los criterios de éxito se establecen antes de recopilar datos para evitar reinterpretar los resultados según las expectativas del equipo.
-
-#### Experiment Card EC01: Recomendación guiada de equipos
+#### Experiment Card EC01 - Recomendación guiada de equipos
 
 | Campo | Definición |
-|:---|:---|
-| **Question** | ¿Cómo cambia el tiempo de selección cuando se utiliza una recomendación guiada en lugar del catálogo convencional? |
-| **Why** | Una selección lenta o incorrecta puede ocasionar abandono, sobrecostos y adquisición de equipos que no responden a la necesidad real. |
-| **Hypothesis** | La recomendación guiada reducirá al menos 20% la mediana del tiempo de selección respecto del catálogo convencional. |
-| **Simplest useful thing / What** | Prototipo navegable que solicita presupuesto, tipo de uso y rendimiento, y devuelve tres alternativas justificadas. |
-| **Method** | Prueba comparativa intra-sujeto: cada participante completa una tarea con el catálogo y otra equivalente con el asistente; el orden se asigna aleatoriamente. |
-| **Measures** | Tiempo hasta seleccionar un equipo, cantidad de retrocesos, adecuación de la elección al escenario y confianza declarada de 1 a 5. |
-| **Conditions** | Mismos escenarios, presupuesto, catálogo y dispositivo; instrucciones neutrales y sin ayuda del moderador durante la tarea. |
-| **Scale** | 20 responsables o usuarios que participen en decisiones tecnológicas de pequeñas empresas o instituciones educativas. |
-| **Decision rule** | Priorizar el asistente si reduce la mediana del tiempo al menos 20% sin disminuir la adecuación de la elección. |
-| **Ethics** | Consentimiento informado, datos anonimizados y posibilidad de abandonar la prueba sin consecuencias. |
+| --- | --- |
+| Question | ¿Una recomendación guiada reduce el tiempo para elegir equipos adecuados? |
+| Why | PcPedia compite por velocidad y confianza en decisiones de leasing tecnológico. |
+| Hypothesis | Si el cliente responde preguntas de uso, presupuesto y cantidad de usuarios, entonces elegirá equipo en menos tiempo y con mayor confianza. |
+| Simplest useful thing | Prototipo de filtros guiados sobre catálogo con resultado recomendado. |
+| Method | Test moderado con tarea de selección y medición de tiempo. |
+| Measures | Tiempo hasta selección, confianza declarada, intención de solicitar cotización. |
+| Conditions | 8 a 12 participantes con rol administrativo, TI u operaciones. |
+| Scale | Mínimo 30 sesiones de catálogo instrumentadas en piloto. |
+| Decision rule | Validar si el tiempo promedio baja al menos 20% y la confianza supera 4/5. |
+| Code evidence | `CatalogController`, `RequestController`, `client/pages/catalog`, `client/pages/request-form`. |
+| Ethics | No inferir presupuesto sensible sin consentimiento; usar respuestas agregadas. |
 
-#### Experiment Card EC02: Comparación transparente de planes
-
-| Campo | Definición |
-|:---|:---|
-| **Question** | ¿En qué medida una comparación detallada mejora la comprensión de los planes de leasing? |
-| **Why** | Una interpretación equivocada del costo o las restricciones afecta la confianza y puede originar decisiones económicas inadecuadas. |
-| **Hypothesis** | La nueva comparación incrementará en más de 15 puntos porcentuales la proporción de usuarios que identifica correctamente el costo total del plan. |
-| **Simplest useful thing / What** | Dos variantes de una pantalla: presentación actual y tabla comparativa con costo total, duración, servicios, restricciones y ayuda contextual. |
-| **Method** | Prueba A/B moderada con asignación aleatoria; cada participante responde el mismo cuestionario de comprensión después de revisar una variante. |
-| **Measures** | Porcentaje de respuestas correctas, tiempo de decisión, dudas expresadas e intención de solicitar información. |
-| **Conditions** | Mismos planes, precios, textos base, dispositivo y límite de tiempo; solo cambia la organización de la información. |
-| **Scale** | 20 participantes, distribuidos equitativamente entre las variantes A y B. |
-| **Decision rule** | Adoptar la tabla si la comprensión correcta aumenta más de 15 puntos porcentuales y el tiempo no empeora más de 10%. |
-| **Ethics** | Usar precios ficticios claramente identificados y no recopilar datos financieros personales. |
-
-#### Experiment Card EC03: Seguimiento visible de incidencias
+#### Experiment Card EC02 - Comparación transparente de planes
 
 | Campo | Definición |
-|:---|:---|
-| **Question** | ¿Cuántas consultas de seguimiento pueden evitarse al mostrar el avance de una incidencia? |
-| **Why** | La falta de información genera incertidumbre para el cliente y carga operativa innecesaria para soporte. |
-| **Hypothesis** | Una línea de tiempo visible reducirá al menos 25% la mediana de consultas de estado realizadas durante un escenario de soporte. |
-| **Simplest useful thing / What** | Prototipo de detalle de incidencia con estado, responsable, historial, próxima actualización y opción de notificación. |
-| **Method** | Simulación comparativa intra-sujeto con dos incidencias equivalentes: una con información básica y otra con trazabilidad completa. |
-| **Measures** | Cantidad de intentos de contacto, tiempo para encontrar el estado, comprensión del siguiente paso y confianza percibida. |
-| **Conditions** | Mismo tiempo de espera simulado, severidad y dispositivo; el orden de las variantes se contrabalancea. |
-| **Scale** | 20 usuarios que hayan solicitado soporte técnico o gestionado incidencias tecnológicas. |
-| **Decision rule** | Priorizar la trazabilidad si reduce las consultas al menos 25% y 80% de participantes identifica el estado en 30 segundos o menos. |
-| **Ethics** | Casos ficticios, sin datos reales de tickets ni información identificable de clientes. |
+| --- | --- |
+| Question | ¿La comparación clara de planes mejora la comprensión de cotizaciones? |
+| Why | La aceptación de una cotización B2B depende de entender precio, duración, vigencia y términos. |
+| Hypothesis | Si PcPedia muestra costo mensual, costo total, equipos y condiciones en una vista comparativa, entonces aumentará la comprensión antes de aceptar. |
+| Simplest useful thing | Vista de detalle de cotización con totales, vigencia, términos y equipos. |
+| Method | Prueba A/B de comprensión: quote resumida vs quote con desglose. |
+| Measures | Comprensión correcta, dudas reportadas, clic en aceptar o solicitar aclaración. |
+| Conditions | Cotizaciones con 2 o más equipos y duración mayor a 6 meses. |
+| Scale | 20 evaluaciones de cotización o 50 sesiones de detalle. |
+| Decision rule | Validar si la comprensión aumenta al menos 25% y las dudas bajan 15%. |
+| Code evidence | `QuoteController`, `client/pages/quotes/quote-detail`. |
+| Ethics | Mostrar costos sin ambigüedad ni sesgos que oculten condiciones relevantes. |
 
-#### Experiment Card EC04: Aprobación de cotización y creación de contrato
-
-| Campo | Definición |
-|:---|:---|
-| **Question** | ¿En qué medida un flujo integrado de aceptación de cotización y creación de contrato reduce la fricción del ciclo Lead-to-Contract? |
-| **Why** | El código actual de PcPedia ya permite que el cliente acepte o rechace cotizaciones desde el frontend y que el administrador cree contratos desde una cotización aceptada mediante el backend. Validar este flujo permite comprobar si la trazabilidad entre cotización y contrato reduce dudas, reprocesos y tiempos comerciales. |
-| **Hypothesis** | El flujo integrado reducirá al menos 20% el tiempo percibido para pasar de cotización revisada a contrato listo para iniciar, frente a un flujo apoyado en coordinación externa por correo o mensajes. |
-| **Simplest useful thing / What** | Escenario navegable con detalle de cotización, botones de aceptar/rechazar, vista administrativa de creación de contrato desde cotización aceptada, fecha de inicio, fecha de fin y términos del contrato. |
-| **Method** | Prueba comparativa basada en tareas: un grupo revisa una cotización y completa el flujo integrado; otro grupo simula el proceso manual con revisión externa. Se registra tiempo, errores y claridad percibida. |
-| **Measures** | Tiempo hasta completar la decisión, porcentaje de usuarios que identifica el monto mensual y total, número de dudas expresadas, cantidad de pasos percibidos y confianza declarada de 1 a 5. |
-| **Conditions** | Misma cotización, mismos equipos, misma duración, mismos términos contractuales y mismo perfil de cliente; solo cambia el canal de aprobación y formalización. |
-| **Scale** | 12 a 20 participantes con rol de compras, administración o decisión tecnológica en empresas o instituciones educativas. |
-| **Decision rule** | Priorizar el flujo integrado si reduce el tiempo al menos 20%, mantiene comprensión correcta del monto y obtiene confianza promedio igual o superior a 4/5. |
-| **Code evidence** | Frontend: vista de detalle de cotización con acciones de aceptar/rechazar y formulario de contrato desde cotización. Backend: endpoints `PATCH /api/quotes/{id}/accept`, `PATCH /api/quotes/{id}/reject` y `POST /api/contracts`. |
-| **Ethics** | Usar cotizaciones ficticias, no solicitar firmas reales ni comprometer legalmente a participantes durante la prueba. |
-
-#### Experiment Card EC05: Priorización de facturas pendientes y registro de pago
+#### Experiment Card EC03 - Trazabilidad visible de incidencias
 
 | Campo | Definición |
-|:---|:---|
-| **Question** | ¿La visualización de facturas pendientes y vencidas antes del registro de pago ayuda al administrador a confirmar pagos con menos errores y menor tiempo operativo? |
-| **Why** | El frontend administrativo muestra facturas pendientes, facturas vencidas, monto, cliente, empresa y fecha de vencimiento antes de registrar el pago. El backend expone facturas pendientes y permite registrar pagos, por lo que el experimento puede validar una mejora operativa real del módulo de billing. |
-| **Hypothesis** | Mostrar primero las facturas pendientes/vencidas con monto y fecha de vencimiento reducirá al menos 25% los errores de selección de factura al registrar pagos. |
-| **Simplest useful thing / What** | Pantalla de registro de pago que lista facturas pendientes y vencidas, permite seleccionar una factura, autocompleta el monto pendiente y solicita método, fecha, referencia y notas. |
-| **Method** | Prueba de tarea con dos variantes: lista priorizada de facturas pendientes/vencidas frente a búsqueda manual en una lista general. Cada participante debe registrar pagos para tres escenarios con montos y vencimientos distintos. |
-| **Measures** | Errores de selección de factura, tiempo hasta registrar el pago, correcciones antes de enviar, comprensión del estado de vencimiento y satisfacción del administrador de 1 a 5. |
-| **Conditions** | Mismo conjunto de facturas, mismos clientes, mismos montos, mismo método de pago y mismo límite de tiempo; solo cambia la forma de encontrar la factura a pagar. |
-| **Scale** | 10 a 15 participantes con tareas administrativas o experiencia en gestión de cobranzas, más revisión interna del equipo de producto. |
-| **Decision rule** | Mantener la priorización si reduce errores al menos 25%, disminuye el tiempo medio de registro y no aumenta pagos asociados a facturas incorrectas. |
-| **Code evidence** | Frontend: formulario administrativo de pagos con selección de facturas pendientes y vencidas. Backend: `GET /api/invoices/pending`, `PUT /api/invoices/{id}/pay`, `PUT /api/invoices/{id}/overdue` y `POST /api/payments`. |
-| **Ethics** | Usar facturas simuladas y referencias ficticias; no exponer datos financieros reales ni registrar pagos productivos durante la validación. |
+| --- | --- |
+| Question | ¿La visibilidad del estado del ticket reduce contactos repetidos al soporte? |
+| Why | En leasing tecnológico, el soporte postventa afecta continuidad operativa y renovación. |
+| Hypothesis | Si el cliente ve estado, comentarios y última actualización del ticket, entonces disminuirá la necesidad de escribir nuevamente por el mismo caso. |
+| Simplest useful thing | Detalle de ticket con estado, comentarios y fecha de actualización. |
+| Method | Comparación antes/después sobre tickets similares. |
+| Measures | Contactos repetidos por ticket, tiempo hasta primera respuesta, CSAT soporte. |
+| Conditions | Tickets activos con al menos una actualización de soporte. |
+| Scale | 30 tickets durante un sprint de observación. |
+| Decision rule | Validar si los contactos repetidos bajan al menos 20% sin reducir CSAT. |
+| Code evidence | `TicketController`, `client/pages/tickets`, `admin/pages/tickets`. |
+| Ethics | No exponer información interna sensible ni datos personales innecesarios. |
 
---- 
+#### Experiment Card EC04 - Aprobación de cotización y creación de contrato
+
+| Campo | Definición |
+| --- | --- |
+| Question | ¿Crear contratos desde cotizaciones aceptadas reduce el tiempo de cierre? |
+| Why | El valor de PcPedia se concreta cuando la cotización se transforma en contrato operativo. |
+| Hypothesis | Si el administrador genera el contrato desde una cotización aceptada con datos precargados, entonces se reducirá el tiempo de cierre y los errores de transcripción. |
+| Simplest useful thing | Formulario de contrato que lista quotes aceptadas y precarga montos, duración, cliente y equipos. |
+| Method | Prueba de tarea administrativa con cronometraje y revisión de errores. |
+| Measures | Tiempo quote aceptada -> contrato, campos corregidos, errores detectados. |
+| Conditions | Cotizaciones aceptadas con equipos y duración definidos. |
+| Scale | 10 a 15 contratos simulados o reales controlados. |
+| Decision rule | Validar si el tiempo baja al menos 30% y no hay errores críticos. |
+| Code evidence | `QuoteController.acceptQuote`, `ContractController.createContract`, `admin/pages/contracts/contract-form`. |
+| Ethics | Verificar consentimiento contractual y evitar crear contratos sin aceptación explícita. |
+
+#### Experiment Card EC05 - Priorización de facturas pendientes y registro de pago
+
+| Campo | Definición |
+| --- | --- |
+| Question | ¿Seleccionar facturas pendientes/vencidas reduce errores al registrar pagos? |
+| Why | La gestión financiera de PcPedia requiere controlar vencimientos, montos y referencias de pago. |
+| Hypothesis | Si el administrador registra pagos desde una lista priorizada de facturas pendientes o vencidas, entonces bajarán los errores de monto, factura y referencia. |
+| Simplest useful thing | Formulario de pago con facturas pendientes, estado, cliente, empresa, monto y fecha de vencimiento. |
+| Method | Prueba de tarea con casos de facturas pendientes y vencidas. |
+| Measures | Errores de selección, diferencias de monto, tiempo de registro, facturas vencidas atendidas. |
+| Conditions | Facturas `PENDING` u `OVERDUE` con monto pendiente calculado. |
+| Scale | 20 registros de pago en ambiente controlado. |
+| Decision rule | Validar si los errores bajan al menos 25% y el tiempo no aumenta más de 10%. |
+| Code evidence | `InvoiceController.getPendingInvoices`, `PaymentController.registerPayment`, `admin/pages/payments/payment-form`. |
+| Ethics | Proteger datos financieros y mantener trazabilidad de auditoría. |
+
+---
 
 ## 8.2. Experiment Design
 
-El diseño experimental convierte las preguntas priorizadas y las apuestas To-Be soportadas por el producto en proposiciones falsables. Cada hipótesis establece una variable independiente, una métrica principal y un umbral de decisión que permite confirmar o rechazar la expectativa del equipo con los datos obtenidos.
+El diseño experimental traduce las preguntas seleccionadas en hipótesis medibles, métricas, condiciones de prueba y métodos mínimos. El alcance de Sprint 4 considera cinco Experiment Cards conectadas con repositorios reales de frontend y backend.
 
 ### 8.2.1. Hypotheses
 
-#### H01: Recomendación guiada y tiempo de selección
-
-- **Variable independiente:** flujo de selección utilizado (catálogo convencional o recomendación guiada).
-- **Variable dependiente:** mediana del tiempo requerido para seleccionar un equipo adecuado.
-- **Hipótesis nula (H0₁):** la mediana del tiempo con recomendación guiada es mayor o igual al 80% de la mediana obtenida con el catálogo convencional; por lo tanto, la reducción es menor al 20%.
-- **Hipótesis alternativa (H1₁):** la mediana del tiempo con recomendación guiada es menor al 80% de la mediana obtenida con el catálogo convencional; por lo tanto, la reducción es de al menos 20%.
-
-#### H02: Comparación de planes y comprensión del costo total
-
-- **Variable independiente:** presentación de los planes (actual o tabla comparativa transparente).
-- **Variable dependiente:** proporción de participantes que identifica correctamente el costo total del plan.
-- **Hipótesis nula (H0₂):** la proporción de respuestas correctas con la tabla comparativa no supera en más de 15 puntos porcentuales la obtenida con la presentación actual.
-- **Hipótesis alternativa (H1₂):** la proporción de respuestas correctas con la tabla comparativa supera en más de 15 puntos porcentuales la obtenida con la presentación actual.
-
-#### H03: Trazabilidad de incidencias y consultas de seguimiento
-
-- **Variable independiente:** nivel de información visible de la incidencia (información básica o línea de tiempo completa).
-- **Variable dependiente:** mediana de intentos de contacto o consultas de estado durante el escenario.
-- **Hipótesis nula (H0₃):** la mediana de consultas con trazabilidad completa es mayor o igual al 75% de la mediana registrada con información básica; por lo tanto, la reducción es menor al 25%.
-- **Hipótesis alternativa (H1₃):** la mediana de consultas con trazabilidad completa es menor al 75% de la mediana registrada con información básica; por lo tanto, la reducción es de al menos 25%.
-
-#### H04: Aprobación de cotización y ciclo Lead-to-Contract
-
-- **Variable independiente:** canal de formalización utilizado (flujo integrado en PcPedia o coordinación externa por correo/mensajes).
-- **Variable dependiente:** tiempo percibido para pasar de cotización revisada a contrato listo para iniciar.
-- **Hipótesis nula (H0₄):** el flujo integrado no reduce el tiempo percibido en al menos 20% frente al flujo externo, o disminuye la comprensión correcta del monto mensual y total.
-- **Hipótesis alternativa (H1₄):** el flujo integrado reduce el tiempo percibido en al menos 20% frente al flujo externo y mantiene comprensión correcta del monto mensual y total.
-
-#### H05: Priorización de facturas pendientes y errores de registro de pago
-
-- **Variable independiente:** forma de localizar la factura a pagar (lista priorizada de pendientes/vencidas o búsqueda manual en lista general).
-- **Variable dependiente:** proporción de errores de selección de factura durante el registro de pago.
-- **Hipótesis nula (H0₅):** la lista priorizada no reduce los errores de selección de factura en al menos 25% frente a la búsqueda manual.
-- **Hipótesis alternativa (H1₅):** la lista priorizada reduce los errores de selección de factura en al menos 25% frente a la búsqueda manual, sin aumentar pagos asociados a facturas incorrectas.
----
+| ID | Hipótesis nula H0 | Hipótesis alternativa H1 | Métrica primaria |
+| --- | --- | --- | --- |
+| H01 | La recomendación guiada no reduce el tiempo de selección de equipos. | La recomendación guiada reduce el tiempo de selección en al menos 20%. | Tiempo hasta selección. |
+| H02 | La comparación de planes no mejora la comprensión de cotizaciones. | La comparación de planes mejora la comprensión correcta en al menos 25%. | Quote comprehension rate. |
+| H03 | La trazabilidad de tickets no reduce contactos repetidos. | La trazabilidad visible reduce contactos repetidos por ticket en al menos 20%. | Contactos repetidos por ticket. |
+| H04 | Crear contratos desde quotes aceptadas no reduce tiempo de cierre. | El flujo quote aceptada -> contrato reduce el tiempo de cierre en al menos 30%. | Lead-to-contract time. |
+| H05 | La priorización de facturas no reduce errores en registro de pagos. | La priorización de facturas reduce errores de registro en al menos 25%. | Payment error rate. |
 
 ### 8.2.2. Domain Business Metrics
 
-Métricas propias del dominio de negocio de arrendamiento tecnológico B2B/B2B2C, distintas de métricas genéricas de tráfico web:
-
-| Métrica de dominio | Definición de negocio |
-|---|---|
-| Tasa de Conversión Lead → Contrato | Porcentaje de prospectos que firman contrato sobre el total de cotizaciones solicitadas. |
-| Costo de Adquisición de Cliente (CAC) | Inversión comercial/marketing necesaria para cerrar un nuevo contrato. |
-| Valor de Vida del Cliente (LTV) | Ingreso neto esperado de un cliente durante la duración promedio de sus contratos. |
-| Ciclo de Venta Promedio (Lead-to-Contract Time) | Días entre la primera solicitud de auditoría y la firma del contrato. |
-| Tasa de Renovación de Contratos | Porcentaje de contratos que se renuevan al finalizar su vigencia. |
-| Ticket Promedio de Arrendamiento (ARPA) | Ingreso mensual promedio por cliente activo. |
-| CSAT / NPS de Soporte | Satisfacción percibida en la atención post-venta (tickets). |
-| Tasa de Abandono de Catálogo | Sesiones que visualizan el catálogo sin generar una solicitud de auditoría. |
-| Días de Venta Pendientes (DSO) | Días promedio que tarda EcatLeasing en cobrar una factura emitida. |
-| Cumplimiento de SLA de Tickets | Porcentaje de tickets resueltos dentro del tiempo de respuesta comprometido. |
-
----
+| Métrica | Definición | Fórmula / cálculo | Hipótesis |
+| --- | --- | --- | --- |
+| Time-to-Equipment Selection | Tiempo para elegir equipo recomendado. | `timestamp_selection - timestamp_catalog_start`. | H01 |
+| Quote Comprehension Rate | Porcentaje de usuarios que responden correctamente precio, duración y vigencia. | `respuestas_correctas / participantes`. | H02 |
+| Support Follow-up Contact Rate | Contactos adicionales por un mismo ticket. | `contactos_repetidos / tickets_activos`. | H03 |
+| Lead-to-Contract Time | Tiempo entre aceptación de quote y contrato creado. | `contract_created_at - quote_accepted_at`. | H04 |
+| Quote Acceptance Rate | Cotizaciones aceptadas sobre cotizaciones enviadas. | `quotes_accepted / quotes_sent`. | H02, H04 |
+| Payment Registration Error Rate | Registros con factura, monto o referencia corregida. | `pagos_con_error / pagos_registrados`. | H05 |
+| Days Sales Outstanding | Días promedio de cobro. | `fecha_pago - fecha_vencimiento`. | H05 |
+| CSAT Support | Satisfacción sobre atención de incidencias. | Promedio escala 1-5. | H03 |
 
 ### 8.2.3. Measures
 
-Operacionalización de cada métrica: fórmula, unidad y fuente de datos dentro del backend DDD de PCPedia.
-
-| Métrica | Fórmula / Cálculo | Unidad | Fuente de datos (entidad/servicio) |
-|---|---|:---:|---|
-| Conversión Lead → Contrato | (N° contratos firmados / N° cotizaciones solicitadas) × 100 | % | `Quote`, `Contract` |
-| CAC | Gasto comercial del periodo / N° clientes nuevos adquiridos | S/ por cliente | Registro financiero EcatLeasing + `User` (alta) |
-| LTV | ARPA × duración promedio de contrato (meses) × margen | S/ | `Contract`, `Invoice` |
-| Ciclo de venta | Fecha de firma de `Contract` − Fecha de creación de `Quote`/solicitud de auditoría | días | `Contract`, `Quote` |
-| Tasa de renovación | (N° contratos renovados / N° contratos vencidos en el periodo) × 100 | % | `Contract` |
-| ARPA | Suma de `Invoice` facturadas del mes / N° clientes activos | S/ | `Invoice` |
-| CSAT | Promedio del campo `satisfaction_score` en `Ticket` cerrados ✅ *implementado:* `PATCH /api/tickets/{id}/rate` | escala 1-5 | `Ticket` |
-| Abandono de catálogo | 1 − (N° solicitudes de auditoría / N° sesiones con vista de catálogo) | % | Evento `catalog_view` (frontend) + `AuditRequest` |
-| DSO | (Cuentas por cobrar promedio / Ingresos por arrendamiento del periodo) × N° días del periodo | días | `Invoice`, `Payment` |
-| SLA de tickets | (N° tickets resueltos dentro del SLA / N° tickets totales) × 100 | % | `Ticket` (timestamps de creación/resolución) |
-
----
+| ID | Measure | Fuente | Instrumento | Criterio de calidad |
+| --- | --- | --- | --- | --- |
+| M01 | Tiempo de selección | Frontend catálogo | Evento propuesto `equipment_selected` | Registrar inicio y fin de tarea. |
+| M02 | Confianza declarada | Entrevista / test | Escala Likert 1-5 | Pregunta posterior a tarea. |
+| M03 | Comprensión de quote | Test de comprensión | Cuestionario de 3 preguntas | Respuesta correcta sin ayuda. |
+| M04 | Contactos repetidos | Tickets / soporte | Conteo por ticket | Excluir contactos internos duplicados. |
+| M05 | Tiempo de cierre | Quotes + contracts | Timestamps backend | Usar quote aceptada y contrato creado. |
+| M06 | Errores de contrato | Observación admin | Checklist | Campo corregido o inconsistente. |
+| M07 | Errores de pago | Payments + invoices | Checklist y auditoría | Monto/factura/referencia incorrecta. |
+| M08 | Vencimiento atendido | Invoices | Estado `PENDING/OVERDUE/PAID` | Comparar antes y después de registrar pago. |
 
 ### 8.2.4. Conditions
 
-Condiciones experimentales por hipótesis: población, entorno, duración y criterios de exclusión.
-
-| Hipótesis | Población objetivo | Entorno | Duración | Grupo de control | Exclusiones |
-|:---:|---|---|:---:|---|---|
-| H1 | Empresas medianas/grandes, prospectos nuevos | Producción (landing + perfil institucional) | 8 semanas | Visitantes sin acceso al contenido institucional nuevo | Tráfico interno del equipo y QA |
-| H2 | Instituciones educativas registradas | Producción, módulo catálogo | 8-12 semanas | Usuarios con la vista de catálogo sin disponibilidad en tiempo real | Administradores internos del catálogo |
-| H3 | Clientes con contrato vigente | Producción | 1 trimestre (12 semanas) | Clientes sin visibilidad de SLA en su panel | Tickets de prueba/staging |
-| H4 | Prospectos en fase de auditoría de equipos | Producción | Continuo, evaluado cada 20 contratos cerrados | Línea base histórica del proceso manual previo | Contratos corporativos negociados fuera de plataforma |
-| H5 | Clientes con facturación activa | Producción | 1 trimestre fiscal | Clientes que aún pagan por canal externo (transferencia manual) | Clientes en disputa de cobro |
-| H6 | Prospectos en etapa de consulta inicial | Producción (landing/chat) | 6-8 semanas | Sesiones sin acceso al asistente conversacional | Tráfico de bots/crawlers |
-
----
+| Hipótesis | Condiciones para ejecutar | Exclusiones |
+| --- | --- | --- |
+| H01 | Usuarios con necesidad real o simulada de renovar equipos. | Participantes que ya conocen exactamente el equipo a comprar. |
+| H02 | Cotizaciones con al menos dos equipos y términos visibles. | Cotizaciones incompletas o vencidas sin contexto. |
+| H03 | Tickets con estado activo y al menos una actualización. | Tickets cerrados sin interacción del cliente. |
+| H04 | Cotización aceptada, cliente identificado y equipos definidos. | Quotes rechazadas, expiradas o sin ítems. |
+| H05 | Facturas pendientes o vencidas con monto pendiente. | Facturas anuladas o ya pagadas. |
 
 ### 8.2.5. Scale Calculations and Decisions
 
-Dado el volumen de tráfico B2B/B2B2C de PCPedia (ciclo de venta largo, bajo volumen comparado con e-commerce masivo), se prioriza la significancia práctica sobre la significancia estadística estricta, siguiendo el enfoque de Lean Analytics para etapas tempranas con tráfico limitado. Se fija un **nivel de confianza del 90%** y un **efecto mínimo detectable (MDE) del 15-20%** según la hipótesis, valores conservadores acordes al tamaño de muestra disponible.
-
-| Hipótesis | Muestra mínima estimada | Umbral de éxito | Umbral de descarte | Decisión intermedia |
-|:---:|:---:|---|---|---|
-| H1 | ≥80 visitas a perfil institucional | Conversión ≥15% | Conversión <5% | 5-15%: extender piloto 4 semanas |
-| H2 | ≥30 instituciones con sesión en catálogo | Reducción de tiempo ≥20% | Reducción <5% | 5-20%: revisar UX del catálogo antes de descartar |
-| H3 | ≥30 tickets cerrados | CSAT ≥4/5 | CSAT <3/5 | 3-4: ajustar SLA comprometido y volver a medir |
-| H4 | ≥20 contratos firmados | Ciclo ≤10 días | Ciclo >20 días | 10-20 días: identificar cuello de botella por etapa |
-| H5 | ≥1 trimestre de facturación con ≥15 clientes activos | DSO reducido ≥25% | DSO reducido <5% | 5-25%: reforzar recordatorios automáticos de pago |
-| H6 | ≥100 sesiones con chatbot activo | Abandono reducido ≥10% | Sin reducción o aumento | 0-10%: revisar guion conversacional |
-
-Las líneas base exactas (conversión actual, ciclo de venta actual, DSO actual) son **asunciones de planeamiento** del equipo a validar con datos reales de EcatLeasing una vez el piloto inicie; se documentarán formalmente en el Acta de revisión QA del diseño experimental.
-
----
+| Hipótesis | Mínimo útil | Decisión de escala | Motivo |
+| --- | --- | --- | --- |
+| H01 | 8-12 tests moderados + 30 sesiones instrumentadas. | Escalar si se cumple reducción de tiempo y confianza >= 4/5. | Es una mejora de descubrimiento con bajo costo técnico. |
+| H02 | 20 pruebas de comprensión o 50 vistas de quote. | Escalar si mejora comprensión sin disminuir aceptación. | Impacta directamente venta y transparencia. |
+| H03 | 30 tickets observados. | Escalar si bajan contactos repetidos y CSAT no cae. | Reduce carga operativa de soporte. |
+| H04 | 10-15 contratos simulados o reales controlados. | Escalar si baja el tiempo y no aparecen errores críticos. | Afecta ingresos y obligaciones legales. |
+| H05 | 20 registros de pago. | Escalar si bajan errores y se atienden vencidos con prioridad. | Impacta caja, auditoría y confianza financiera. |
 
 ### 8.2.6. Methods Selection
 
-| Hipótesis | Método experimental | Justificación |
-|:---:|---|---|
-| H1 | A/B Testing (landing con vs. sin contenido institucional) | Tráfico suficiente para split testing simple; cambio de contenido es fácilmente aislable. |
-| H2 | Análisis Pre/Post (cohortes antes y después del release) | Funcionalidad es un release binario por cliente institucional, no apta para split en vivo. |
-| H3 | Encuesta CSAT + análisis longitudinal de cohortes | Mide percepción subjetiva sostenida en el tiempo, no un evento puntual. |
-| H4 | Benchmarking de proceso (serie temporal pre/post digitalización) | Compara el proceso manual histórico de EcatLeasing contra el flujo digital nuevo. |
-| H5 | Análisis Pre/Post + tendencia de DSO | El cambio de canal de pago afecta a toda la base de clientes facturados, no es segmentable en A/B. |
-| H6 | Fake door / Smoke test seguido de A/B una vez validado interés | Permite validar demanda del chatbot antes de invertir en desarrollo completo. |
+| Hipótesis | Método | Justificación |
+| --- | --- | --- |
+| H01 | Test de usabilidad moderado + analítica de eventos. | Permite observar dudas y medir tiempo real. |
+| H02 | Prueba A/B de comprensión. | Compara claridad de cotización con una condición alternativa. |
+| H03 | Antes/después operacional. | Los tickets generan estados comparables en el tiempo. |
+| H04 | Prueba de tarea administrativa. | El flujo depende de precisión y velocidad interna. |
+| H05 | Prueba de tarea con auditoría. | Los errores financieros deben medirse por caso. |
 
----
+### 8.2.7. Data Analytics: Goals, Questions and Metrics
 
-### 8.2.7. Data Analytics: Goals, KPIs and Metrics Selection
+| Goal | Question | Metrics |
+| --- | --- | --- |
+| Mejorar selección de equipos. | ¿El usuario decide más rápido y con más confianza? | M01, M02, intención de cotizar. |
+| Mejorar comprensión comercial. | ¿El usuario entiende costos, duración y vigencia? | M03, aceptación, dudas reportadas. |
+| Mejorar soporte postventa. | ¿El cliente reduce contactos repetidos? | M04, CSAT, tiempo de respuesta. |
+| Mejorar cierre contractual. | ¿La administración crea contratos más rápido y con menos errores? | M05, M06. |
+| Mejorar control financiero. | ¿El registro de pagos reduce errores y atiende vencidos? | M07, M08, DSO. |
 
-Se aplica el enfoque **Goal–Question–Metric (GQM)** para conectar los objetivos de negocio con las métricas de dominio (8.2.2):
+### 8.2.8. Tracking Plan
 
-| Goal | Question | Metric (KPI) |
-|---|---|---|
-| Aumentar la conversión de prospecto a cliente | ¿Qué contenido genera más solicitudes de cotización? | Conversión visita → cotización; CTR de contenido institucional |
-| Reducir la fricción operativa en autoservicio | ¿En qué paso del flujo catálogo → auditoría abandonan los usuarios? | Funnel drop-off por etapa; Tasa de abandono de catálogo |
-| Maximizar retención y satisfacción | ¿La resolución de tickets dentro de SLA mejora el CSAT y reduce el churn? | Cumplimiento de SLA; CSAT; Tasa de renovación |
-| Acelerar el ciclo de venta | ¿Qué etapa del flujo de contratación toma más tiempo? | Ciclo de venta por etapa (cotización, auditoría, firma) |
-| Mejorar el flujo de caja | ¿Los pagos in-app reducen la mora frente al cobro manual? | DSO; % de pagos realizados a tiempo |
+Los siguientes eventos se proponen para instrumentación; el repositorio ya contiene los flujos funcionales, pero la captura analítica debe integrarse antes de una medición productiva.
 
----
-
-### 8.2.8. Web and Mobile Tracking Plan
-
-PCPedia es actualmente una SPA Angular 20 responsive (sin aplicación móvil nativa), por lo que el tracking "mobile" corresponde a la experiencia web accedida desde navegador móvil, no a un SDK nativo.
-
-| Evento | Disparador | Propiedades clave | Componente / Pantalla | Estado |
-|---|---|---|---|:---:|
-| `login_success` / `login_failure` | Eventos de autenticación | `user_type`, `device_category` | `login.component.ts` (líneas 238, 248) | ✅ |
-| `catalog_view` | Usuario visita el catálogo de equipos | `equipment_category`, `segment_type`, `device_category` | `catalog-list.component.ts` (línea 366) | ✅ |
-| `catalog_filter_used` | Usuario aplica un filtro | `filter_type`, `filter_value` | `catalog-list.component.ts` (líneas 377, 380) | ✅ |
-| `audit_request_submitted` | Envío de solicitud de auditoría de equipos | `company_size`, `industry`, `equipment_ids[]` | `request-form.component.ts` (línea 417) | ✅ (props parciales, ver nota) |
-| `quote_requested` | Generación de cotización | `equipment_ids[]`, `segment_type` | `quote-form.component.ts` (línea 546) | ✅ |
-| `contract_signed` | Firma digital del contrato | `contract_value`, `duration_months` | `contract-form.component.ts` (línea 367) | ✅ |
-| `ticket_created` | Cliente crea un ticket de soporte | `category`, `priority` | `ticket-form.component.ts` (línea 194) | ✅ |
-| `ticket_resolved` | Ticket marcado como resuelto | `resolution_time_hours`, `satisfaction_score` | `ticket-detail.component.ts` (línea 478) | ⚠️ implementado, `satisfaction_score` aún en placeholder (ver nota) |
-| `payment_completed` | Pago realizado dentro de la plataforma | `amount`, `payment_method`, `days_since_invoice` | `payment-form.component.ts` (línea 388) | ✅ |
-| `contact_page_view` *(nuevo, soporta H1/HU16)* | Visita a la página de contacto | — | `contact.component.ts` (`ngOnInit`) | ✅ |
-| `chatbot_interaction` *(a futuro, H6)* | Interacción con asistente conversacional | `query_type`, `resolved_without_agent` | Widget de chat (pendiente HU21) | ⬜ pendiente |
-
-**Estado de implementación:** `AnalyticsService` (`analytics.service.ts`) creado con `trackEvent()` genérico + 10 métodos tipados, inicializado vía `gtag.js` en `index.html` y `environment.ts` / `environment.prod.ts` (`gaMeasurementId`). Pendientes antes de iniciar el piloto:
-
-- Reemplazar el placeholder `G-XXXXXXX` por el Measurement ID real de GA4.
-- `audit_request_submitted` envía `company_size: 'unknown'` e `industry: 'technology'` como placeholder, porque el formulario no captura aún el perfil de empresa del prospecto; enriquecer leyendo `AuthService.currentUser().companySize` cuando ese campo exista.
-- `ticket_resolved` envía `satisfaction_score: 0` como placeholder. El backend ya expone `PATCH /api/tickets/{id}/rate` (ver 8.2.3), pero el frontend aún no tiene el modal post-resolución que capture la calificación real y dispare el evento con el score verdadero — queda como siguiente tarea antes de poder medir H3 con datos reales.
-
-**Herramientas:** Google Analytics 4 para eventos de navegación e interacción en frontend, complementado con registro de eventos de negocio en backend (tabla de auditoría/logs estructurados) para los eventos ligados a entidades como `Contract`, `Invoice` y `Ticket`, que GA4 no puede capturar por sí solo.
+| Evento propuesto | Momento | Propiedades | Hipótesis | Estado |
+| --- | --- | --- | --- | --- |
+| `catalog_guided_started` | Inicio de guía de selección. | `user_role`, `company_size`, `budget_range`. | H01 | Propuesto |
+| `equipment_selected` | Selección de equipo recomendado. | `model_id`, `category`, `time_to_select`. | H01 | Propuesto |
+| `quote_detail_viewed` | Apertura de cotización. | `quote_id`, `duration`, `monthly_total`, `status`. | H02 | Propuesto |
+| `quote_accepted` | Aceptación de cotización. | `quote_id`, `total`, `valid_until`. | H02, H04 | Backend disponible |
+| `ticket_status_viewed` | Consulta de ticket. | `ticket_id`, `status`, `last_update_age`. | H03 | Propuesto |
+| `contract_created_from_quote` | Contrato generado desde quote aceptada. | `quote_id`, `contract_id`, `time_to_contract`. | H04 | Backend disponible |
+| `pending_invoice_selected` | Selección de factura para pago. | `invoice_id`, `status`, `days_overdue`, `amount`. | H05 | Frontend disponible |
+| `payment_registered` | Registro de pago. | `payment_id`, `invoice_id`, `method`, `amount`. | H05 | Backend disponible |
 
 ---
 
@@ -3276,289 +3202,215 @@ PCPedia es actualmente una SPA Angular 20 responsive (sin aplicación móvil nat
 
 ### 8.3.1. To-Be User Stories
 
-Historias de usuario nuevas, derivadas directamente de las hipótesis H1-H6, que extienden el Product Backlog actual (Capítulo III):
+| ID | User Story | Épica | Hipótesis | Story Points |
+| --- | --- | --- | --- | --- |
+| HU15 | Como cliente, quiero recibir una recomendación guiada de equipos según mi necesidad, para decidir con menos tiempo y mayor confianza. | EP01 | H01 | 5 |
+| HU16 | Como cliente, quiero comparar costos, vigencia y términos de una cotización, para aceptar o pedir ajustes con información clara. | EP02 | H02 | 5 |
+| HU17 | Como cliente, quiero ver estado y comentarios de mis tickets, para no repetir consultas al soporte. | EP03 | H03 | 3 |
+| HU18 | Como administrador, quiero crear contratos desde cotizaciones aceptadas, para cerrar operaciones sin duplicar datos. | EP04 | H04 | 8 |
+| HU19 | Como administrador, quiero registrar pagos desde facturas pendientes o vencidas, para reducir errores y atender cobros prioritarios. | EP05 | H05 | 5 |
 
-| HU | Historia de usuario | Épica | Hipótesis | Story Points |
-|:---:|---|:---:|:---:|:---:|
-| HU15 | Como prospecto empresarial, quiero ver el perfil institucional de EcatLeasing y casos de éxito de otros clientes, para evaluar la confiabilidad del servicio antes de cotizar. | EP02 | H1 | 5 |
-| HU16 | Como prospecto, quiero encontrar fácilmente la ubicación y los canales de contacto de EcatLeasing, para resolver dudas antes de comprometerme. | EP02 | H1 | 3 |
-| HU17 | Como responsable de TI de una institución educativa, quiero ver la disponibilidad en tiempo real de los equipos del catálogo, para planificar mi solicitud de auditoría sin retrasos. | EP04 | H2 | 8 |
-| HU18 | Como cliente con contrato activo, quiero ver el SLA y el estado de mis tickets en tiempo real, para confiar en los tiempos de atención. | EP03 | H3 | 5 |
-| HU19 | Como cliente, quiero firmar el contrato digitalmente dentro de la plataforma, para evitar el envío de documentos por correo y acelerar el cierre. | EP05 | H4 | 13 |
-| HU20 | Como cliente, quiero recibir recordatorios automáticos de vencimiento de pago dentro de la plataforma, para evitar moras y gestionar mi flujo de caja. | EP05 | H5 | 5 |
-| HU21 | Como prospecto, quiero resolver dudas básicas mediante un asistente conversacional, para obtener respuesta inmediata sin esperar a un agente humano. | EP03 | H6 | 8 |
+### 8.3.2. Product Backlog
 
----
+| Prioridad | ID | Item | Hipótesis | Estado |
+| --- | --- | --- | --- | --- |
+| 1 | HU15 | Guía de recomendación conectada al catálogo. | H01 | To-Be |
+| 2 | HU16 | Detalle comparativo de cotización. | H02 | Parcialmente implementado |
+| 3 | HU17 | Trazabilidad de tickets cliente/admin. | H03 | Implementado base |
+| 4 | HU18 | Creación de contrato desde quote aceptada. | H04 | Implementado base |
+| 5 | HU19 | Registro de pago desde facturas pendientes. | H05 | Implementado base |
 
-### 8.3.2. To-Be Product Backlog
-
-Backlog priorizado de las historias to-be, en escala de Fibonacci (consistente con el Product Backlog del Capítulo III), listo para asignación a sprint:
-
-| HU | Título | Épica | Prioridad | Story Points | Sprint propuesto | Estado |
-|:---:|---|:---:|:---:|:---:|:---:|:---:|
-| HU16 | Ubicación y contacto verificable | EP02 | Alta | 3 | Sprint 5 | ✅ Hecho |
-| HU15 | Perfil institucional y casos de éxito | EP02 | Alta | 5 | Sprint 5 | Por hacer |
-| HU18 | SLA y estado de tickets en tiempo real | EP03 | Alta | 5 | Sprint 5 | Por hacer |
-| HU20 | Recordatorios automáticos de pago | EP05 | Alta | 5 | Sprint 6 | Por hacer |
-| HU17 | Disponibilidad de catálogo en tiempo real | EP04 | Media | 8 | Sprint 6 | Por hacer |
-| HU21 | Asistente conversacional (chatbot) | EP03 | Media | 8 | Sprint 7 | Por hacer |
-| HU19 | Firma digital de contrato | EP05 | Media | 13 | Sprint 7 | Por hacer |
-
-**Criterio de priorización:** se priorizaron primero las historias de menor esfuerzo y mayor impacto directo sobre H1 y H3 (confianza y retención), por ser las hipótesis más rápidas de instrumentar sin depender de integraciones externas (firma digital, chatbot), las cuales se dejaron para sprints posteriores dado su mayor costo de implementación (13 y 8 puntos respectivamente).
-
----
-
-### 8.3.3. Pipeline-supported, Experiment-Driven To-Be Software Platform Lifecycle
-
-Esta sección documenta la ejecución del ciclo To-Be de PcPedia bajo un enfoque de Experiment-Driven Development. El objetivo del Sprint 4 fue convertir las hipótesis priorizadas en cambios verificables del producto, manteniendo trazabilidad entre preguntas experimentales, historias de usuario, componentes implementados, métricas y decisiones posteriores.
-
-La ejecución se apoyó en los repositorios y despliegues ya descritos en los capítulos V y VII: Landing Page en GitHub Pages, aplicación web Angular en Netlify y API RESTful Java/Spring Boot en Azure App Service con base de datos MySQL. Para no comprometer la estabilidad de la versión As-Is, los cambios To-Be se trataron como incrementos experimentales y se evaluaron mediante entrevistas guiadas, eventos de analítica y evidencia funcional.
+### 8.3.3. Experiment Lifecycle Management
 
 #### 8.3.3.1. To-Be Sprint Backlogs
 
-**Sprint Planning 4 (To-Be)**
+| Campo | Definición |
+| --- | --- |
+| Sprint Goal | Ejecutar el ciclo experimental de Capítulo VIII para validar recomendación de equipos, comparación de planes, seguimiento de incidencias, contratos desde cotizaciones y pagos desde facturas pendientes. |
+| Duración | Sprint 4 académico. |
+| Responsable | Bendezu Navarro, Rúbens. |
+| Resultado esperado | Evidencia suficiente para decidir qué flujos escalar, iterar o mantener en observación. |
 
-| Campo | Valor |
-|---|---|
-| Sprint | Sprint 4 (To-Be) |
-| Fecha de planificación | 2026-07-11 |
-| Modalidad | Virtual |
-| Preparado por | Bendezu Navarro, Rúbens |
-| Participantes | Equipo PcPedia / EcatLeasing |
-| Sprint Goal | Ejecutar los experimentos To-Be del Capítulo VIII para validar si la recomendación guiada, la comparación transparente de planes, la trazabilidad de incidencias, la firma digital, los recordatorios de pago y el chatbot mejoran la toma de decisiones, la confianza y la continuidad operativa de los clientes. |
-| Criterio de cierre | Cada experimento debe contar con una historia trazable, evidencia funcional, métrica asociada y una decisión de continuidad, iteración o descarte. |
+| WI | Historia | Trabajo | Hipótesis | Puntos | Estado |
+| --- | --- | --- | --- | --- | --- |
+| WI01 | HU15 | Definir preguntas de recomendación y criterios de equipo. | H01 | 3 | Done |
+| WI02 | HU15 | Mapear evidencia de catálogo y requests en front/back. | H01 | 2 | Done |
+| WI03 | HU16 | Revisar detalle de quote, totales, vigencia y aceptación. | H02 | 3 | Done |
+| WI04 | HU17 | Revisar vistas y endpoints de tickets, estados y comentarios. | H03 | 3 | Done |
+| WI05 | HU18 | Revisar flujo quote aceptada -> creación de contrato. | H04 | 5 | Done |
+| WI06 | HU19 | Revisar facturas pendientes y registro de pago. | H05 | 5 | Done |
+| WI07 | HU15-HU19 | Definir medidas, condiciones y reglas de decisión. | H01-H05 | 3 | Done |
+| WI08 | HU15-HU19 | Repriorizar backlog experimental con evidencia. | H01-H05 | 2 | Done |
+| WI09 | HU15-HU19 | Elaborar matriz ética y de impacto. | H01-H05 | 2 | Done |
+| WI10 | HU15-HU19 | Consolidar capítulo y trazabilidad académica. | H01-H05 | 4 | Done |
 
-**Sprint Backlog 4 (To-Be)**
+#### 8.3.3.2. Landing Page Evidence
 
-| ID | User Story relacionada | Work Item / Task | Hipótesis | Estimación (h) | Responsable | Estado |
-|:---:|---|---|:---:|:---:|---|:---:|
-| WI01 | HU15 | Redactar perfil institucional y casos de éxito para reforzar confianza antes de cotizar. | H01 | 3 | Equipo frontend | Done |
-| WI02 | HU16 | Implementar acceso visible a ubicación, teléfono, correo, horario y mapa de EcatLeasing. | H01 | 2 | Equipo frontend | Done |
-| WI03 | HU17 | Definir disponibilidad visible de equipos y criterios de recomendación por presupuesto, uso y rendimiento. | H01 | 4 | Equipo frontend/backend | Done |
-| WI04 | HU18 | Diseñar panel de trazabilidad de tickets con estado, responsable, historial y próxima actualización. | H03 | 4 | Equipo frontend | Done |
-| WI05 | HU18 | Preparar evento `ticket_status_view` y medición de intentos de contacto posteriores. | H03 | 2 | Equipo frontend | Done |
-| WI06 | HU19 | Documentar flujo To-Be de revisión y aprobación digital de cotizaciones/contratos. | H04 | 3 | Equipo producto | Done |
-| WI07 | HU20 | Definir recordatorios automáticos de pago y reglas de vencimiento para clientes activos. | H05 | 3 | Equipo backend | Done |
-| WI08 | HU21 | Diseñar cuestionario mínimo del chatbot para dudas frecuentes de planes, equipos y soporte. | H06 | 4 | Equipo frontend | Done |
-| WI09 | HU15-HU21 | Registrar trazabilidad entre features, métricas, eventos GA4 y reglas de decisión. | H01-H06 | 3 | Bendezu Navarro, Rúbens | Done |
-| WI10 | HU15-HU21 | Consolidar resultados, repriorizar backlog y formular aprendizajes del ciclo experimental. | H01-H06 | 4 | Bendezu Navarro, Rúbens | Done |
+| Evidencia | Relación experimental | Uso en Capítulo VIII |
+| --- | --- | --- |
+| Propuesta de leasing tecnológico | Explica el valor central de PcPedia para empresas. | Contextualiza H01 y H02. |
+| Llamados a solicitar información o cotización | Conectan interés inicial con flujo comercial. | Permiten medir intención antes de quote. |
+| Mensajes de soporte y confianza | Reducen incertidumbre antes de contratar. | Relacionan H03 con experiencia postventa. |
 
-El backlog prioriza primero las mejoras de bajo esfuerzo y alta capacidad de aprendizaje: contacto verificable, trazabilidad de tickets y comparación de planes. Las funcionalidades con mayor dependencia técnica, como firma digital y chatbot, se mantienen como apuestas To-Be validadas por percepción antes de escalar su implementación completa.
+La landing page funciona como punto de entrada para los experimentos, pero no sustituye la validación funcional dentro del producto. Su principal aporte es captar intención y orientar al usuario hacia catálogo, cotización o soporte.
 
-#### 8.3.3.2. Implemented To-Be Landing Page Evidence
+#### 8.3.3.3. Frontend-Web Evidence
 
-La Landing Page se mantiene como punto de entrada del ecosistema PcPedia y fue usada como superficie experimental para reforzar confianza, explicar el valor del arrendamiento tecnológico y dirigir a los usuarios hacia cotización o contacto. La evidencia To-Be se concentra en la claridad comercial y en la reducción de incertidumbre previa a iniciar una solicitud.
+| Flujo | Evidencia en FrontPcPedia | Hipótesis | Lectura experimental |
+| --- | --- | --- | --- |
+| Catálogo y solicitud | `client/pages/catalog`, `client/pages/request-form` | H01 | Base para medir selección y solicitud de equipos. |
+| Detalle de cotización | `client/pages/quotes/quote-detail.component.ts` | H02 | Muestra estado, vigencia, total mensual, términos y acciones de aceptar/rechazar. |
+| Tickets cliente/admin | `client/pages/tickets`, `admin/pages/tickets` | H03 | Permite consultar, crear y actualizar incidencias. |
+| Contratos admin | `admin/pages/contracts/contract-form.component.ts` | H04 | Permite crear contrato desde quote aceptada con datos visibles. |
+| Pagos admin | `admin/pages/payments/payment-form.component.ts` | H05 | Lista facturas pendientes/vencidas y autocompleta monto para registrar pago. |
+| Facturas admin | `admin/pages/invoices/invoice-detail.component.ts` | H05 | Facilita registrar pago o marcar factura según estado. |
 
-| Elemento To-Be | Evidencia funcional | Hipótesis relacionada | Métrica esperada |
-|---|---|:---:|---|
-| Perfil institucional de EcatLeasing | Sección con propuesta de valor, beneficios del leasing y orientación a empresas/instituciones educativas. | H01 | Aumento de confianza declarada antes de cotizar. |
-| Canales de contacto visibles | Dirección, teléfono, correo, horario y mapa enlazados desde la navegación principal. | H01 | Reducción del tiempo para encontrar contacto comercial. |
-| Explicación de planes y beneficios | Presentación resumida de servicios, soporte, mantenimiento y condiciones de contratación. | H02 | Mayor comprensión del costo total y alcance del plan. |
-| Acceso a soporte y preguntas frecuentes | Contenido orientado a resolver dudas iniciales sin depender de atención manual inmediata. | H06 | Menor abandono en la fase de consulta inicial. |
+#### 8.3.3.4. Native-Mobile Evidence
 
-La Landing Page desplegada se conserva en GitHub Pages: https://1asi0729-7401-2520-ecatleasing-pcpedia.github.io/Landing-Page-PcPedia/
+No se identificó un repositorio móvil nativo separado para Sprint 4. Por ello, la evidencia móvil se formula como criterios responsive y de preparación omnicanal sobre los flujos web existentes.
 
-#### 8.3.3.3. Implemented To-Be Frontend-Web Application Evidence
+| Flujo | Criterio móvil To-Be | Hipótesis |
+| --- | --- | --- |
+| Recomendación de equipos | Preguntas en pasos cortos, controles táctiles y resultados legibles. | H01 |
+| Comparación de cotizaciones | Resumen sticky de total mensual, vigencia y acción principal. | H02 |
+| Tickets | Timeline vertical de estado y comentarios. | H03 |
+| Contratos | Revisión mobile-friendly de quote aceptada antes de crear contrato. | H04 |
+| Pagos | Selección clara de facturas vencidas y confirmación de monto. | H05 |
 
-La aplicación web de PcPedia, desplegada en Netlify, concentra la mayor parte de los tratamientos experimentales porque allí ocurren las decisiones principales del usuario: explorar equipos, comparar condiciones, gestionar contratos, reportar incidencias y consultar pagos.
+#### 8.3.3.5. RESTful API / Backend Evidence
 
-| Experimento | Evidencia en frontend web | Evento / señal de medición | Decisión experimental |
-|---|---|---|---|
-| Recomendación guiada de equipos | Flujo To-Be para orientar la selección según perfil de uso, presupuesto y rendimiento esperado. | `recommendation_started`, `recommendation_completed`, tiempo hasta selección. | Escalar si reduce la mediana de selección al menos 20% sin reducir adecuación. |
-| Comparación transparente de planes | Vista de planes con costo total, duración, beneficios, restricciones y soporte incluido. | `plan_compared`, respuestas correctas sobre costos. | Adoptar si aumenta comprensión en más de 15 puntos porcentuales. |
-| Trazabilidad de incidencias | Vista de detalle de ticket con estado, responsable, historial y próxima actualización. | `ticket_status_view`, intentos de contacto posteriores. | Priorizar si reduce consultas al menos 25%. |
-| Firma digital / aprobación de cotización | Flujo documentado para revisar términos y aprobar la contratación dentro de la plataforma. | `quote_reviewed`, `contract_approved`. | Implementar integración completa si reduce fricción comercial. |
-| Recordatorios de pago | Pantallas y reglas To-Be para alertar vencimientos y evitar moras. | `payment_reminder_viewed`, pagos dentro de fecha. | Mantener si mejora puntualidad sin saturar al cliente. |
-| Chatbot de dudas frecuentes | Widget To-Be para consultas iniciales sobre planes, equipos y soporte. | `chatbot_opened`, `chatbot_resolution`. | Iterar si no reduce abandono o si deriva demasiadas conversaciones a humano. |
-
-El frontend desplegado se mantiene en Netlify: https://pcpedia.netlify.app
-
-#### 8.3.3.4. Implemented To-Be Native-Mobile Application Evidence
-
-PcPedia cuenta con diseño UX/UI móvil y prototipos Android/iOS documentados en el Capítulo IV. Para este Sprint 4, la validación To-Be se realizó principalmente sobre la aplicación web responsive, por lo que la evidencia nativa móvil se registra como alineamiento de experiencia y preparación de implementación, no como publicación de una app nativa en tiendas.
-
-| Aspecto móvil To-Be | Evidencia considerada | Relación con el experimento |
-|---|---|---|
-| Selección de equipos en pantallas pequeñas | Prototipos móviles con tarjetas de equipos, filtros compactos y lectura priorizada de especificaciones. | H01: reduce carga cognitiva al elegir equipos. |
-| Comparación de planes | Diseño responsive de tablas o bloques apilados para costo total, duración y beneficios. | H02: evita que la información financiera se pierda en móvil. |
-| Seguimiento de incidencias | Flujo móvil de ticket con estado visible, historial y próxima actualización. | H03: permite consultar avance sin contactar soporte. |
-| Recordatorios de pago | Notificaciones y mensajes de vencimiento preparados para una futura app móvil. | H05: soporta prevención de mora y continuidad de servicio. |
-| Chatbot | Acceso flotante o sección de ayuda con tamaño táctil adecuado. | H06: reduce fricción en consultas iniciales. |
-
-La decisión del sprint fue no introducir una app nativa nueva durante la validación para evitar dispersar el esfuerzo experimental. La siguiente iteración puede transformar estos prototipos en builds Android/iOS si las señales del canal web justifican la inversión.
-
-#### 8.3.3.5. Implemented To-Be RESTful API and/or Serverless Backend Evidence
-
-El backend Java/Spring Boot de PcPedia sostiene los datos críticos del ciclo experimental: usuarios, catálogo, contratos, tickets, pagos y eventos asociados. La evidencia To-Be se concentra en preparar endpoints y entidades para que las métricas no dependan únicamente de percepción declarada.
-
-| Componente backend | Evidencia To-Be | Hipótesis | Uso en medición |
-|---|---|:---:|---|
-| Catálogo / equipos | Datos de disponibilidad, categoría y características técnicas para alimentar recomendación guiada. | H01 | Adecuación de la selección y reducción de tiempo. |
-| Contratos / cotizaciones | Registro de revisión, aprobación y condiciones asociadas al plan. | H02, H04 | Comprensión de costos y ciclo Lead-to-Contract. |
-| Tickets / soporte | Campo `satisfactionScore`, método de calificación y endpoint `PATCH /api/tickets/{id}/rate`. | H03 | CSAT, trazabilidad y consultas evitadas. |
-| Pagos / facturación | Reglas de vencimiento y estado de pago para activar recordatorios. | H05 | DSO, pagos a tiempo y reducción de mora. |
-| Auditoría / analítica | Eventos de negocio complementarios a GA4 para acciones que ocurren en entidades del dominio. | H01-H06 | Cruce entre comportamiento frontend y cambios reales de estado. |
-
-La API desplegada se encuentra documentada mediante Swagger en el entorno de producción del backend: https://pcpediaapi-egd4b8frh3bqcsde.canadacentral-01.azurewebsites.net/swagger-ui/index.html
+| Dominio | Endpoint / clase | Evidencia | Hipótesis |
+| --- | --- | --- | --- |
+| Catálogo | `CatalogController` (`/api/catalog`) | Lista productos, categorías y modelos. | H01 |
+| Solicitudes | `RequestController` (`/api/requests`) | Crea y consulta solicitudes de equipos. | H01 |
+| Cotizaciones | `QuoteController` (`/api/quotes`) | Crea, consulta, actualiza, envía, acepta y rechaza quotes. | H02, H04 |
+| Contratos | `ContractController` (`/api/contracts`) | Crea contratos desde cotizaciones aceptadas, consulta, cancela y renueva. | H04 |
+| Tickets | `TicketController` (`/api/tickets`) | Crea tickets, cambia estado y agrega comentarios. | H03 |
+| Facturas | `InvoiceController` (`/api/invoices`) | Consulta pendientes, marca vencidas, cancela y paga. | H05 |
+| Pagos | `PaymentController` (`/api/payments`) | Registra y consulta pagos. | H05 |
+| Repositorio financiero | `InvoiceRepository` | Consultas para facturas pendientes, vencidas y montos. | H05 |
 
 #### 8.3.3.6. Team Collaboration Insights
 
-Como evidencia de que el diseño de experimentos no quedó solo en documentación, se implementó en código lo siguiente sobre los repositorios reales de PCPedia:
-
-**Frontend (`PCPedia-Web`)**
-
-| Implementado | Detalle |
-|---|---|
-| `AnalyticsService` (GA4) | `trackEvent()` genérico + 10 métodos tipados, conectados a `gtag.js` vía `index.html` y `environment(.prod).ts` |
-| 9 de 10 eventos del Tracking Plan (8.2.8) | Disparados desde sus componentes reales (login, catálogo, auditoría, cotización, contrato, ticket, pago) — ver tabla de 8.2.8 con línea exacta por evento |
-| HU16 — Contacto EcatLeasing | `ContactComponent` standalone en `/contacto`, con dirección, teléfono, correo, horario y mapa embebido; enlazado desde `login.component.ts`; dispara `contact_page_view` |
-
-**Backend (`PCPedia-API`)**
-
-| Implementado | Detalle |
-|---|---|
-| Campo `satisfactionScore` en `Ticket` | Entidad de dominio con método `rate(Integer score)`, solo válido en estados `RESOLVED`/`CLOSED` |
-| Endpoint `PATCH /api/tickets/{id}/rate` | Restringido a rol `CLIENT`, valida propiedad del ticket (403 si no es el dueño) y rango 1-5 (`@Min`/`@Max`) |
-| Columna `satisfaction_score` | Generada automáticamente por Hibernate (`ddl-auto=update`) |
-
-**Pendiente para que H3 (CSAT) sea medible con datos reales:** conectar el endpoint `rate` a un modal en el frontend que aparezca al cerrar un ticket, capture el score real del cliente y lo envíe tanto al backend como al evento `ticket_resolved` (que hoy va con `satisfaction_score: 0` de placeholder). Sin ese modal, el backend ya puede recibir calificaciones, pero nada en la UI las dispara todavía.
-
-El aprendizaje principal del equipo es que la documentación experimental debe avanzar junto con la implementación. Cuando una métrica se define antes que el componente que la captura, el equipo puede detectar vacíos de instrumentación temprano, como ocurrió con la calificación real de tickets. Esto evita declarar hipótesis como validadas sin una fuente de datos suficiente.
-
----
+| Aprendizaje | Evidencia | Acción tomada |
+| --- | --- | --- |
+| Las hipótesis deben conectarse con funcionalidades reales del producto. | Revisión de repos front/back. | Se descartaron ideas sin soporte directo en los repos de Sprint 4 y se priorizaron flujos existentes. |
+| Las métricas financieras requieren cuidado ético y trazabilidad. | Facturas y pagos involucran montos, vencimientos y referencias. | Se agregó tratamiento responsable de datos financieros. |
+| La validación comercial no termina en aceptar quote. | Existe flujo posterior de contrato. | Se incorporó EC04 para medir cierre real. |
+| El soporte necesita medir comportamiento, no solo interfaz. | Tickets tienen estados y comentarios. | Se definió métrica de contactos repetidos. |
 
 ### 8.3.4. To-Be Validation Interviews
 
-Para la validación de las propuestas de valor y funcionalidades To-Be de EcatLeasing, se optó por un enfoque de entrevistas guiadas basadas en la interacción con el prototipo del software desplegado. Debido a la naturaleza B2B de nuestro servicio, el objetivo principal fue verificar si las hipótesis planteadas en el *Question Backlog* resolvían los puntos de dolor relacionados con la selección de equipos, la trazabilidad de tickets y la gestión del **contrato SaaS**.
-
 #### 8.3.4.1. Diseño de Entrevistas.
 
-El diseño de las entrevistas se estructuró en base a un cuestionario directo enfocado en validar nuestras hipótesis principales. Tras interactuar con las nuevas funcionalidades en el entorno de pruebas, se formularon las siguientes preguntas a los usuarios:
+Las entrevistas se diseñan como pruebas de tarea orientadas a evidencia. Cada participante recibe un escenario breve, ejecuta una acción representativa y responde preguntas de comprensión, confianza o fricción percibida.
 
-*   **Sobre la Recomendación Guiada (H01):**
-    *   ¿Sientes que el asistente de recomendación te ayudó a encontrar un equipo más rápido que navegando por el catálogo completo?
-    *   ¿Las preguntas de filtrado (rol del empleado, tipo de uso) fueron claras y acertadas para tu necesidad?
-*   **Sobre la Comparación de Planes (Contrato SaaS) (H02):**
-    *   Al ver la tabla comparativa, ¿te queda claro qué beneficios de soporte y mantenimiento incluye cada plan?
-    *   ¿Consideras que la presentación actual te ayuda a calcular el costo total de tu contrato SaaS con mayor precisión?
-*   **Sobre la Trazabilidad de Incidencias (H03):**
-    *   ¿La línea de tiempo visible en el detalle del ticket te brinda suficiente información sobre el estado de tu reporte?
-    *   Con esta información a la vista, ¿sentirías la necesidad de contactar al área de soporte para pedir actualizaciones?
-*   **Sobre el Ciclo de Venta y Firma Digital (H04):**
-    *   ¿Qué tan intuitivo te pareció el proceso de revisar y aprobar la cotización directamente en la plataforma?
-    *   ¿Consideras que firmar digitalmente el contrato agiliza significativamente la adquisición de los equipos?
-*   **Sobre la Pasarela de Pagos (H05):**
-    *   ¿Los recordatorios automáticos de facturación son útiles para evitar retrasos en los pagos de tu institución?
-*   **Sobre el Asistente Conversacional / Chatbot (H06):**
-    *   ¿Encontraste útil el widget del chat para resolver tus dudas iniciales o preferiste ignorarlo?
-    *   ¿Sientes que el chatbot respondió tus consultas lo suficientemente bien como para no tener que agendar una reunión?
+| Hipótesis | Escenario | Evidencia a capturar |
+| --- | --- | --- |
+| H01 | Elegir equipos para un equipo de trabajo con presupuesto definido. | Tiempo, confianza y dudas de selección. |
+| H02 | Revisar una cotización y explicar costo, duración y vigencia. | Respuestas correctas y dudas comerciales. |
+| H03 | Consultar el estado de una incidencia activa. | Comprensión del estado y necesidad de contactar soporte. |
+| H04 | Crear contrato desde una cotización aceptada. | Tiempo, correcciones y errores de digitación. |
+| H05 | Registrar pago desde una factura pendiente o vencida. | Errores de selección, monto y referencia. |
 
 #### 8.3.4.2. Registro de Entrevistas.
 
-A continuación, se presenta el registro resumido de las entrevistas realizadas a los perfiles clave, enfocándonos en las tareas asignadas correspondientes a nuestras hipótesis:
-
-| Entrevistado / Perfil | Tarea Asignada (Feature evaluado) | Observaciones y Feedback Principal |
-| :--- | :--- | :--- |
-| **Entrevistado 1**<br>*(Carlos M. - Gerente TI)* | Buscar equipos usando la **Recomendación Guiada** (H01) y revisar estado de un ticket (H03). | El usuario completó la búsqueda de equipos rápidamente. Mencionó: *"La línea de tiempo en los tickets de soporte me da total visibilidad de cuándo vendrán a reparar el equipo."* |
-| **Entrevistado 2**<br>*(Ana V. - Jefa de Compras)* | Revisar los planes de suscripción y los términos del **Contrato SaaS** (H02 y H04). | Analizó la tabla comparativa de planes. Comentó: *"Es muy útil ver exactamente qué features de soporte y mantenimiento incluye mi contrato SaaS antes de aprobar la cotización."* |
-| **Entrevistado 3**<br>*(Luis R. - Admin. Financiero)* | Evaluar la pasarela de pagos y el proceso de facturación automática (H05). | Revisó el dashboard de facturas. *"Me ayuda mucho que el sistema automatice los recordatorios para no afectar nuestro DSO (Días de Venta Pendientes)."* |
+| Perfil | Tarea principal | Preguntas de validación | Hipótesis |
+| --- | --- | --- | --- |
+| Responsable de TI | Elegir equipos para 10 colaboradores. | ¿La recomendación fue entendible? ¿Qué dato faltó para decidir? | H01 |
+| Administrador financiero | Revisar una cotización. | ¿Puede explicar mensualidad, total, duración y vigencia? | H02 |
+| Usuario con incidencia | Revisar estado de ticket. | ¿Sabe qué pasó, quién atiende y qué sigue? | H03 |
+| Ejecutivo administrativo | Crear contrato desde quote aceptada. | ¿Qué campo tuvo que corregir? ¿Cuánto tardó? | H04 |
+| Analista de cobranzas | Registrar pago de factura pendiente. | ¿Eligió la factura correcta? ¿El monto fue claro? | H05 |
 
 ---
 
 ## 8.4. Experiment Aftermath & Analysis
 
-Tras finalizar las sesiones de validación en nuestro entorno montado, procedimos a consolidar los datos obtenidos durante la interacción de los usuarios con el software. El objetivo de esta fase es determinar, basados en métricas reales de uso y percepción, el destino de cada característica planteada.
-
 ### 8.4.1. Analysis and Interpretation of Results
 
-A continuación, se detalla el análisis respondiendo directamente a cada interrogante del *Question Backlog* (Hipótesis), especificando la ubicación exacta de los features dentro del software y el veredicto final (aprobado o rechazado).
-
-| Question Backlog (Hipótesis evaluada) | ¿Dónde están los Features en el Software? | Veredicto | Análisis e Interpretación de Resultados |
-| :--- | :--- | :--- | :--- |
-| **H01:** ¿La **recomendación guiada** reduce el tiempo de selección de equipos en al menos un 20%? | **Módulo de Catálogo > Asistente de Recomendación:** Accesible desde el dashboard principal mediante el botón "Recomendar Equipos". | **APROBADO** | Los usuarios redujeron su tiempo de búsqueda significativamente frente al catálogo tradicional. El flujo guiado permitió filtrar rápidamente según el rol del empleado, confirmando la Hipótesis Alternativa (H1₁). |
-| **H02:** ¿La tabla comparativa transparente mejora la comprensión del costo total del **contrato SaaS**? | **Landing Page y Módulo de Suscripciones > Pricing:** Sección de "Planes" donde se desglosan los Tiers del servicio antes de iniciar el onboarding. | **APROBADO** | Los Jefes de Compras entendieron claramente el modelo de suscripción. Mostrar los features y límites de cada plan del contrato SaaS incrementó la comprensión en más de 15 puntos porcentuales (H1₂). |
-| **H03:** ¿La **trazabilidad completa** reduce las consultas de seguimiento de incidencias? | **Módulo de Soporte > Panel de Trazabilidad de Tickets:** Vista de detalle que se abre al hacer clic sobre un ticket activo en el dashboard del cliente. | **APROBADO** | Al disponer de un historial visual del estado del equipo (reportado, en revisión, técnico en camino), la necesidad del usuario de contactar a soporte disminuyó notablemente, reduciendo el volumen de consultas (H1₃). |
-| **H04:** ¿La firma digital en plataforma reduce el ciclo de venta a menos de 10 días? | **Módulo de Contratos (Contracts) > Vista de Cotizaciones:** Panel administrativo donde el usuario aprueba los términos y firma el **contrato SaaS** digitalmente. | **APROBADO** | Al no depender de correos externos ni firmas físicas, el flujo *Lead-to-Contract* se agilizó de manera drástica, validando la hipótesis de eficiencia comercial. |
-| **H05:** ¿Los recordatorios automáticos de pago reducen retrasos y consultas administrativas? | **Módulo de Pagos / Facturación:** Alertas To-Be de vencimiento y estado de pago para clientes con contrato activo. | **APROBADO CON SEGUIMIENTO** | Los usuarios valoraron recibir avisos antes del vencimiento, pero la métrica requiere observar pagos reales por más ciclos de facturación. Se mantiene como experimento activo. |
-| **H06:** ¿El asistente conversacional reduce la tasa de abandono en la fase de consulta inicial? | **Landing Page > Widget de Chat Flotante:** Ubicado en la esquina inferior derecha de todas las pantallas públicas. | **RECHAZADO** (Iterar) | Aunque útil, los clientes corporativos prefirieron agendar una reunión directa en lugar de usar el bot. La reducción de abandono no alcanzó el 10% mínimo. Se debe iterar el guion del bot o enfocarlo solo a soporte post-venta. |
+| Hipótesis | Resultado esperado del piloto | Interpretación | Decisión |
+| --- | --- | --- | --- |
+| H01 | Reducción >=20% en tiempo de selección y confianza >=4/5. | Si se cumple, la guía aporta claridad al catálogo; si no, ajustar preguntas. | Escalar con instrumentación. |
+| H02 | Comprensión +25% y menos dudas sobre costos. | Si mejora comprensión sin bajar aceptación, mantener desglose transparente. | Escalar en quote detail. |
+| H03 | Contactos repetidos -20% sin caída de CSAT. | Si baja contacto repetido, la trazabilidad reduce carga operativa. | Priorizar timeline y notificaciones. |
+| H04 | Tiempo quote aceptada -> contrato -30% y sin errores críticos. | Si se cumple, el contrato precargado acelera conversión B2B. | Escalar y auditar legalmente. |
+| H05 | Errores de pago -25% y vencidos atendidos primero. | Si se cumple, la priorización financiera reduce riesgo operativo. | Escalar con logs de auditoría. |
 
 ### 8.4.2. Re-scored and Re-prioritized Question Backlog
 
-Después de analizar las entrevistas To-Be y la evidencia funcional, el Question Backlog se volvió a puntuar. El objetivo no fue premiar las ideas que "salieron bien", sino decidir qué debe escalarse, qué debe seguir midiéndose y qué debe reformularse.
+| Nuevo rank | ID | Pregunta | Confidence | Risk | Impact | Interest | Total | Decisión posterior |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Q04 | Quote aceptada -> contrato precargado. | 5 | 5 | 5 | 5 | 20 | Prioridad Sprint 5 por impacto en cierre. |
+| 2 | Q05 | Facturas pendientes y registro de pago. | 5 | 5 | 5 | 4 | 19 | Prioridad alta por impacto financiero. |
+| 3 | Q02 | Comparación transparente de planes. | 5 | 4 | 5 | 5 | 19 | Escalar en cotizaciones. |
+| 4 | Q03 | Trazabilidad de incidencias. | 4 | 5 | 5 | 4 | 18 | Iterar con notificaciones. |
+| 5 | Q01 | Recomendación guiada de equipos. | 4 | 4 | 5 | 5 | 18 | Iterar guía y filtros. |
+| 6 | Q07 | Indicadores gerenciales de renovaciones y mora. | 3 | 4 | 5 | 4 | 16 | Mantener en backlog. |
+| 7 | Q06 | Segmentos que requieren asesoría humana. | 3 | 4 | 4 | 4 | 15 | Investigar con entrevistas. |
+| 8 | Q08 | Evidencia contractual de confianza. | 3 | 3 | 4 | 4 | 14 | Integrar a H04. |
 
-| Nueva prioridad | ID | Pregunta / hipótesis | Confidence | Risk | Impact | Interest | Total | Decisión |
-|:---:|:---:|---|:---:|:---:|:---:|:---:|:---:|---|
-| 1 | H03 | Trazabilidad visible de incidencias y reducción de consultas de soporte. | 5 | 5 | 5 | 5 | 20 | Escalar y conectar CSAT real. |
-| 2 | H02 | Comparación transparente de planes y comprensión del costo total. | 5 | 4 | 5 | 5 | 19 | Mantener como patrón de diseño comercial. |
-| 3 | H01 | Recomendación guiada de equipos y reducción del tiempo de selección. | 4 | 5 | 5 | 5 | 19 | Implementar versión completa con datos reales de catálogo. |
-| 4 | H05 | Recordatorios de pago y reducción de morosidad o consultas administrativas. | 4 | 4 | 4 | 4 | 16 | Medir durante más ciclos de facturación. |
-| 5 | H04 | Firma digital y reducción del ciclo Lead-to-Contract. | 3 | 4 | 5 | 4 | 16 | Validar factibilidad legal/técnica antes de escalar. |
-| 6 | H06 | Chatbot y reducción de abandono en consulta inicial. | 2 | 3 | 3 | 4 | 12 | Iterar guion o reenfocar a soporte post-venta. |
+La repriorización coloca primero contrato y pagos porque conectan directamente con ingresos, obligaciones legales y control financiero. La recomendación y comparación siguen siendo importantes, pero su mayor valor aparece cuando alimentan un flujo comercial completo y medible.
 
-La repriorización desplaza la trazabilidad de incidencias al primer lugar porque combina alto impacto operativo, baja ambigüedad para el usuario y una ruta clara de instrumentación. El chatbot queda al final porque la validación mostró preferencia por contacto humano en decisiones B2B de mayor valor.
+---
 
 ## 8.5. Continuous Learning
 
 ### 8.5.1. Shareback Session Artifacts: Learning Workflow
 
-La sesión de shareback del Sprint 4 permitió cerrar el ciclo Build-Measure-Learn con una lectura conjunta de evidencias. El equipo revisó las entrevistas, los eventos disponibles, la trazabilidad técnica y los riesgos de sesgo antes de decidir qué funcionalidades pasarían a la siguiente iteración.
+| Etapa | Actividad | Evidencia | Decisión |
+| --- | --- | --- | --- |
+| Build | Implementar o prototipar cambios mínimos en catálogo, quote, tickets, contratos y pagos. | Repos front/back y criterios de tarea. | No construir más de lo necesario antes de medir. |
+| Measure | Capturar tiempos, errores, comprensión y contactos repetidos. | Tracking plan y entrevistas. | Validar con datos cuantitativos y cualitativos. |
+| Learn | Contrastar H0/H1 de cada experimento. | Tabla 8.4.1. | Escalar, iterar o descartar. |
+| Shareback | Presentar hallazgos al equipo y registrar acuerdos. | Backlog repriorizado 8.4.2. | Convertir aprendizaje en próximas historias. |
 
-| Etapa | Actividad | Artefacto generado | Aprendizaje |
-|---|---|---|---|
-| Build | Consolidar prototipos y evidencias To-Be por plataforma. | Sprint Backlog 4 y tablas de evidencia. | No todos los tratamientos requieren el mismo nivel de implementación para aprender. |
-| Measure | Revisar entrevistas, métricas de comprensión, intención de contacto y señales de uso. | Tabla de análisis 8.4.1 y backlog repriorizado. | La trazabilidad de tickets produce aprendizaje más accionable que el chatbot inicial. |
-| Learn | Decidir escalar, iterar o descartar cada apuesta. | Reglas de decisión por hipótesis. | PcPedia debe priorizar transparencia y control antes que automatización conversacional. |
-| Shareback | Comunicar hallazgos, límites y próximos pasos al equipo. | Matriz ética/de impacto y recomendaciones. | Reportar resultados negativos también protege la calidad de decisión del producto. |
+Workflow de aprendizaje:
 
-**Learning Workflow aplicado**
+1. Preparar caso de prueba y criterio de éxito por card.
+2. Ejecutar tarea con usuario o administrador representativo.
+3. Registrar métricas y observaciones sin datos personales innecesarios.
+4. Comparar contra regla de decisión.
+5. Repriorizar backlog y documentar aprendizaje.
 
-1. Recoger datos mínimos de cada experimento.
-2. Separar evidencia observada de interpretación del equipo.
-3. Comparar resultados contra la regla de decisión definida antes de la prueba.
-4. Repriorizar el backlog con Confidence, Risk, Impact e Interest.
-5. Registrar limitaciones, riesgos éticos y acciones pendientes.
-6. Llevar la siguiente iteración solo a las funcionalidades con aprendizaje suficiente.
+---
 
 ## 8.6. To-Be Software Platform Pre-launch
 
 ### 8.6.1. About-the-Product Intro Video
 
-El pre-launch de PcPedia requiere presentar el producto de forma clara, verificable y alineada con los experimentos validados. El video About-the-Product debe explicar qué problema resuelve EcatLeasing, cómo PcPedia reduce incertidumbre en la contratación tecnológica y qué evidencias respaldan las decisiones de diseño.
+El video introductorio debe presentar PcPedia como una plataforma B2B para arrendar equipos tecnológicos con decisiones sustentadas en evidencia.
 
-**Guion propuesto del video**
+| Bloque | Mensaje | Evidencia del capítulo |
+| --- | --- | --- |
+| 1. Problema | Las empresas necesitan renovar equipos sin perder tiempo comparando opciones, contratos y pagos manualmente. | 8.1.1, 8.1.2 |
+| 2. Solución | PcPedia integra catálogo, cotización, contrato, facturación, pagos y soporte en una sola experiencia. | 8.3.3.3, 8.3.3.5 |
+| 3. Diferencial experimental | Las mejoras se priorizan con hipótesis, métricas y reglas de decisión. | 8.2, 8.4 |
+| 4. Valor para cliente | Menos incertidumbre para elegir equipos, aceptar cotizaciones y seguir incidencias. | EC01, EC02, EC03 |
+| 5. Valor para operación | Menos errores al crear contratos y registrar pagos. | EC04, EC05 |
+| 6. Cierre | PcPedia aprende de cada interacción para mejorar con responsabilidad ética y datos confiables. | 8.5, matriz ética |
 
-| Bloque | Contenido | Evidencia conectada |
-|---|---|---|
-| 1. Problema | Empresas e instituciones necesitan arrendar equipos sin perder tiempo comparando especificaciones, planes y soporte. | As-Is Summary y Raw Material. |
-| 2. Solución | PcPedia centraliza catálogo, contratos, pagos, incidencias y control de activos. | Capítulos V y VII. |
-| 3. Diferenciador experimental | Las mejoras To-Be se priorizan mediante hipótesis, métricas y validación con usuarios. | Capítulo VIII. |
-| 4. Flujos principales | Recomendación guiada, comparación de planes, trazabilidad de tickets y recordatorios de pago. | 8.3.3 y 8.4.1. |
-| 5. Aprendizaje | El equipo decide con evidencia: escala trazabilidad y comparación; itera chatbot. | 8.4.2 y 8.5.1. |
-| 6. Cierre | Invitación a validar la plataforma y continuar midiendo impacto social, económico y ambiental. | Matriz ética/de impacto. |
+Criterios de aceptación del video:
 
-**Criterios de pre-launch**
-
-| Criterio | Estado | Observación |
-|---|:---:|---|
-| Landing Page disponible | Cumplido | GitHub Pages funciona como entrada pública. |
-| Frontend web disponible | Cumplido | Netlify expone la aplicación PcPedia. |
-| Backend documentado | Cumplido | Swagger permite verificar endpoints REST. |
-| Métricas principales definidas | Cumplido | GA4 y eventos de dominio cubren los experimentos. |
-| Riesgos éticos identificados | Cumplido | Se documenta tratamiento responsable de datos y transparencia. |
-| Experimentos pendientes de medición real | En seguimiento | CSAT real de tickets y chatbot requieren más instrumentación. |
+- Duración sugerida: 60 a 90 segundos.
+- Mostrar los cinco flujos del capítulo: recomendación, cotización, ticket, contrato y pago.
+- Evitar prometer automatización no validada.
+- Explicar que las decisiones se basan en experimentos y evidencia.
+- Cerrar con una llamada a solicitar cotización o explorar el catálogo.
 
 ## Matriz de Evaluación Ética y de Impacto
 
-| Dimensión | Riesgo u oportunidad | Nivel | Mitigación / decisión de ingeniería | Evidencia |
-|---|---|:---:|---|---|
-| Privacidad de datos | Los experimentos pueden recolectar preferencias, presupuestos, tickets y comportamiento de navegación. | Riesgo medio | Minimizar datos, anonimizar respuestas de entrevistas y separar métricas agregadas de información personal. | 8.1.5, 8.2.8, 8.3.4 |
-| Transparencia algorítmica | La recomendación guiada podría inducir decisiones si no explica criterios. | Riesgo medio | Mostrar criterios usados: presupuesto, uso, rendimiento y disponibilidad; evitar priorizar equipos por interés comercial no declarado. | H01, EC01 |
-| Impacto económico | Una comparación incompleta de planes puede llevar a costos mal entendidos. | Riesgo alto mitigado | Presentar costo total, duración, beneficios, restricciones y soporte incluido antes de contratar. | H02, 8.4.1 |
-| Continuidad operativa | Tickets sin trazabilidad aumentan incertidumbre y presión sobre soporte. | Impacto positivo | Priorizar línea de tiempo de incidencias, responsable y próxima actualización. | H03, 8.4.2 |
-| Inclusión social | Usuarios con menor conocimiento técnico pueden sentirse excluidos por especificaciones complejas. | Impacto positivo | Diseñar recomendación guiada, lenguaje claro y flujos móviles legibles. | 8.1.2, 8.3.3.4 |
-| Impacto ambiental | Elegir equipos sobredimensionados acelera consumo innecesario de recursos tecnológicos. | Impacto positivo | Recomendar equipos ajustados a necesidad real y promover arrendamiento con gestión de ciclo de vida. | H01, métricas de dominio |
-| Integridad del reporte | El equipo podría reportar solo resultados favorables. | Riesgo medio mitigado | Registrar también hipótesis rechazadas o pendientes, como el chatbot y CSAT real de tickets. | 8.4.1, 8.4.2 |
-| Seguridad profesional | Contratos, pagos y tickets involucran información sensible del negocio. | Riesgo alto mitigado | Mantener roles, validaciones backend, endpoints documentados y despliegue monitoreado. | Capítulos V, VII y 8.3.3.5 |
+| Dimensión | Riesgo | Nivel | Mitigación | Relación experimental |
+| --- | --- | --- | --- | --- |
+| Privacidad | Recolectar preferencias, presupuesto o datos de comportamiento sin claridad. | Medio | Consentimiento, minimización y agregación de datos. | H01, H02 |
+| Transparencia comercial | Mostrar costos de forma incompleta o sesgada. | Alto | Exponer mensualidad, total, duración, vigencia y términos. | H02 |
+| Soporte | Exponer información sensible de tickets. | Medio | Limitar datos visibles y registrar comentarios relevantes. | H03 |
+| Contratos | Crear obligaciones sin aceptación explícita. | Alto | Usar solo quotes aceptadas y mantener trazabilidad. | H04 |
+| Finanzas | Manejar montos, vencimientos y referencias de pago con errores. | Alto | Auditoría, confirmación previa y control de facturas pendientes. | H05 |
+| Impacto social | Facilitar acceso a tecnología sin forzar sobreendeudamiento. | Medio | Recomendar opciones adecuadas a necesidad y presupuesto. | H01, H02 |
+| Impacto económico | Reducir tiempos administrativos y errores de cobranza. | Positivo | Medir tiempo, errores y conversión. | H04, H05 |
+| Impacto ambiental | Promover uso más eficiente de equipos mediante leasing y renovación planificada. | Positivo | Favorecer selección adecuada y ciclo de vida controlado. | H01 |
+| Integridad académica | Reportar solo resultados favorables. | Medio | Registrar hipótesis, criterios y decisiones aunque no validen. | 8.4, 8.5 |
 
 ---
 
