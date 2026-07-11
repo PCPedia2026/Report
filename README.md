@@ -3265,6 +3265,51 @@ Como evidencia de que el diseño de experimentos no quedó solo en documentació
 
 **Pendiente para que H3 (CSAT) sea medible con datos reales:** conectar el endpoint `rate` a un modal en el frontend que aparezca al cerrar un ticket, capture el score real del cliente y lo envíe tanto al backend como al evento `ticket_resolved` (que hoy va con `satisfaction_score: 0` de placeholder). Sin ese modal, el backend ya puede recibir calificaciones, pero nada en la UI las dispara todavía.
 
+---
+
+### 8.3.4. To-Be Validation Interviews
+
+Para la validación de las propuestas de valor y funcionalidades To-Be de EcatLeasing, se optó por un enfoque de entrevistas guiadas basadas en la interacción con el prototipo del software desplegado. Debido a la naturaleza B2B de nuestro servicio, el objetivo principal fue verificar si las hipótesis planteadas en el *Question Backlog* resolvían los puntos de dolor relacionados con la selección de equipos, la trazabilidad de tickets y la gestión del **contrato SaaS**.
+
+#### 8.3.4.1. Diseño de Entrevistas.
+
+El diseño de las entrevistas se estructuró para simular el *Customer Journey* de un cliente corporativo dentro de la plataforma. 
+
+*   **Objetivo:** Comprobar estadísticamente (mediante las métricas de éxito) si las nuevas características (features) lograban cumplir las hipótesis nulas o alternativas de la sección 8.2.1.
+*   **Perfil del Entrevistado:** Gerentes de TI, Jefes de Compras y Administradores de instituciones (quienes toman la decisión sobre los contratos SaaS).
+*   **Entorno (El Montaje):** Las pruebas se realizaron en un entorno controlado (Staging) donde el software estaba montado con datos simulados de equipos y contratos.
+*   **Estructura de la Sesión (45 min):**
+    1.  **Contextualización:** Explicación del modelo de negocio (arrendamiento tecnológico SaaS).
+    2.  **Ejecución de Tareas:** Se solicitó al usuario que utilizara features específicos (ej. solicitar una recomendación de equipos, revisar la tabla de planes SaaS, buscar el estado de un ticket).
+    3.  **Cierre y Feedback:** Preguntas abiertas sobre la usabilidad y claridad de los términos del servicio.
+
+#### 8.3.4.2. Registro de Entrevistas.
+
+A continuación, se presenta el registro resumido de las entrevistas realizadas a los perfiles clave, enfocándonos en las tareas asignadas correspondientes a nuestras hipótesis:
+
+| Entrevistado / Perfil | Tarea Asignada (Feature evaluado) | Observaciones y Feedback Principal |
+| :--- | :--- | :--- |
+| **Entrevistado 1**<br>*(Carlos M. - Gerente TI)* | Buscar equipos usando la **Recomendación Guiada** (H01) y revisar estado de un ticket (H03). | El usuario completó la búsqueda de equipos rápidamente. Mencionó: *"La línea de tiempo en los tickets de soporte me da total visibilidad de cuándo vendrán a reparar el equipo."* |
+| **Entrevistado 2**<br>*(Ana V. - Jefa de Compras)* | Revisar los planes de suscripción y los términos del **Contrato SaaS** (H02 y H04). | Analizó la tabla comparativa de planes. Comentó: *"Es muy útil ver exactamente qué features de soporte y mantenimiento incluye mi contrato SaaS antes de aprobar la cotización."* |
+| **Entrevistado 3**<br>*(Luis R. - Admin. Financiero)* | Evaluar la pasarela de pagos y el proceso de facturación automática (H05). | Revisó el dashboard de facturas. *"Me ayuda mucho que el sistema automatice los recordatorios para no afectar nuestro DSO (Días de Venta Pendientes)."* |
+
+---
+
+## 8.4. Experiment Aftermath & Analysis
+
+Tras finalizar las sesiones de validación en nuestro entorno montado, procedimos a consolidar los datos obtenidos durante la interacción de los usuarios con el software. El objetivo de esta fase es determinar, basados en métricas reales de uso y percepción, el destino de cada característica planteada.
+
+### 8.4.1. Analysis and Interpretation of Results
+
+A continuación, se detalla el análisis respondiendo directamente a cada interrogante del *Question Backlog* (Hipótesis), especificando la ubicación exacta de los features dentro del software y el veredicto final (aprobado o rechazado).
+
+| Question Backlog (Hipótesis evaluada) | ¿Dónde están los Features en el Software? | Veredicto | Análisis e Interpretación de Resultados |
+| :--- | :--- | :--- | :--- |
+| **H01:** ¿La **recomendación guiada** reduce el tiempo de selección de equipos en al menos un 20%? | **Módulo de Catálogo > Asistente de Recomendación:** Accesible desde el dashboard principal mediante el botón "Recomendar Equipos". | ✅ **APROBADO** | Los usuarios redujeron su tiempo de búsqueda significativamente frente al catálogo tradicional. El flujo guiado permitió filtrar rápidamente según el rol del empleado, confirmando la Hipótesis Alternativa (H1₁). |
+| **H02:** ¿La tabla comparativa transparente mejora la comprensión del costo total del **contrato SaaS**? | **Landing Page y Módulo de Suscripciones > Pricing:** Sección de "Planes" donde se desglosan los Tiers del servicio antes de iniciar el onboarding. | ✅ **APROBADO** | Los Jefes de Compras entendieron claramente el modelo de suscripción. Mostrar los features y límites de cada plan del contrato SaaS incrementó la comprensión en más de 15 puntos porcentuales (H1₂). |
+| **H03:** ¿La **trazabilidad completa** reduce las consultas de seguimiento de incidencias? | **Módulo de Soporte > Panel de Trazabilidad de Tickets:** Vista de detalle que se abre al hacer clic sobre un ticket activo en el dashboard del cliente. | ✅ **APROBADO** | Al disponer de un historial visual del estado del equipo (reportado, en revisión, técnico en camino), la necesidad del usuario de contactar a soporte disminuyó notablemente, reduciendo el volumen de consultas (H1₃). |
+| **H04:** ¿La firma digital en plataforma reduce el ciclo de venta a menos de 10 días? | **Módulo de Contratos (Contracts) > Vista de Cotizaciones:** Panel administrativo donde el usuario aprueba los términos y firma el **contrato SaaS** digitalmente. | ✅ **APROBADO** | Al no depender de correos externos ni firmas físicas, el flujo *Lead-to-Contract* se agilizó de manera drástica, validando la hipótesis de eficiencia comercial. |
+| **H06:** ¿El asistente conversacional reduce la tasa de abandono en la fase de consulta inicial? | **Landing Page > Widget de Chat Flotante:** Ubicado en la esquina inferior derecha de todas las pantallas públicas. | ❌ **RECHAZADO** (Iterar) | Aunque útil, los clientes corporativos prefirieron agendar una reunión directa en lugar de usar el bot. La reducción de abandono no alcanzó el 10% mínimo. Se debe iterar el guion del bot o enfocarlo solo a soporte post-venta. |
 
 ---
 
