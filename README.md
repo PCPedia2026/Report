@@ -3024,7 +3024,7 @@ Las preguntas se priorizan en una escala de 1 a 5. Una puntuación mayor represe
 
 ### 8.1.5. Experiment Cards
 
-Las tres preguntas con mayor puntuación se desarrollan mediante Experiment Cards. Los criterios de éxito se establecen antes de recopilar datos para evitar reinterpretar los resultados según las expectativas del equipo.
+Las preguntas con mayor puntuación y las apuestas To-Be ya soportadas por el código de PcPedia se desarrollan mediante Experiment Cards. Los criterios de éxito se establecen antes de recopilar datos para evitar reinterpretar los resultados según las expectativas del equipo.
 
 #### Experiment Card EC01: Recomendación guiada de equipos
 
@@ -3071,11 +3071,43 @@ Las tres preguntas con mayor puntuación se desarrollan mediante Experiment Card
 | **Decision rule** | Priorizar la trazabilidad si reduce las consultas al menos 25% y 80% de participantes identifica el estado en 30 segundos o menos. |
 | **Ethics** | Casos ficticios, sin datos reales de tickets ni información identificable de clientes. |
 
+#### Experiment Card EC04: Aprobación de cotización y creación de contrato
+
+| Campo | Definición |
+|:---|:---|
+| **Question** | ¿En qué medida un flujo integrado de aceptación de cotización y creación de contrato reduce la fricción del ciclo Lead-to-Contract? |
+| **Why** | El código actual de PcPedia ya permite que el cliente acepte o rechace cotizaciones desde el frontend y que el administrador cree contratos desde una cotización aceptada mediante el backend. Validar este flujo permite comprobar si la trazabilidad entre cotización y contrato reduce dudas, reprocesos y tiempos comerciales. |
+| **Hypothesis** | El flujo integrado reducirá al menos 20% el tiempo percibido para pasar de cotización revisada a contrato listo para iniciar, frente a un flujo apoyado en coordinación externa por correo o mensajes. |
+| **Simplest useful thing / What** | Escenario navegable con detalle de cotización, botones de aceptar/rechazar, vista administrativa de creación de contrato desde cotización aceptada, fecha de inicio, fecha de fin y términos del contrato. |
+| **Method** | Prueba comparativa basada en tareas: un grupo revisa una cotización y completa el flujo integrado; otro grupo simula el proceso manual con revisión externa. Se registra tiempo, errores y claridad percibida. |
+| **Measures** | Tiempo hasta completar la decisión, porcentaje de usuarios que identifica el monto mensual y total, número de dudas expresadas, cantidad de pasos percibidos y confianza declarada de 1 a 5. |
+| **Conditions** | Misma cotización, mismos equipos, misma duración, mismos términos contractuales y mismo perfil de cliente; solo cambia el canal de aprobación y formalización. |
+| **Scale** | 12 a 20 participantes con rol de compras, administración o decisión tecnológica en empresas o instituciones educativas. |
+| **Decision rule** | Priorizar el flujo integrado si reduce el tiempo al menos 20%, mantiene comprensión correcta del monto y obtiene confianza promedio igual o superior a 4/5. |
+| **Code evidence** | Frontend: vista de detalle de cotización con acciones de aceptar/rechazar y formulario de contrato desde cotización. Backend: endpoints `PATCH /api/quotes/{id}/accept`, `PATCH /api/quotes/{id}/reject` y `POST /api/contracts`. |
+| **Ethics** | Usar cotizaciones ficticias, no solicitar firmas reales ni comprometer legalmente a participantes durante la prueba. |
+
+#### Experiment Card EC05: Priorización de facturas pendientes y registro de pago
+
+| Campo | Definición |
+|:---|:---|
+| **Question** | ¿La visualización de facturas pendientes y vencidas antes del registro de pago ayuda al administrador a confirmar pagos con menos errores y menor tiempo operativo? |
+| **Why** | El frontend administrativo muestra facturas pendientes, facturas vencidas, monto, cliente, empresa y fecha de vencimiento antes de registrar el pago. El backend expone facturas pendientes y permite registrar pagos, por lo que el experimento puede validar una mejora operativa real del módulo de billing. |
+| **Hypothesis** | Mostrar primero las facturas pendientes/vencidas con monto y fecha de vencimiento reducirá al menos 25% los errores de selección de factura al registrar pagos. |
+| **Simplest useful thing / What** | Pantalla de registro de pago que lista facturas pendientes y vencidas, permite seleccionar una factura, autocompleta el monto pendiente y solicita método, fecha, referencia y notas. |
+| **Method** | Prueba de tarea con dos variantes: lista priorizada de facturas pendientes/vencidas frente a búsqueda manual en una lista general. Cada participante debe registrar pagos para tres escenarios con montos y vencimientos distintos. |
+| **Measures** | Errores de selección de factura, tiempo hasta registrar el pago, correcciones antes de enviar, comprensión del estado de vencimiento y satisfacción del administrador de 1 a 5. |
+| **Conditions** | Mismo conjunto de facturas, mismos clientes, mismos montos, mismo método de pago y mismo límite de tiempo; solo cambia la forma de encontrar la factura a pagar. |
+| **Scale** | 10 a 15 participantes con tareas administrativas o experiencia en gestión de cobranzas, más revisión interna del equipo de producto. |
+| **Decision rule** | Mantener la priorización si reduce errores al menos 25%, disminuye el tiempo medio de registro y no aumenta pagos asociados a facturas incorrectas. |
+| **Code evidence** | Frontend: formulario administrativo de pagos con selección de facturas pendientes y vencidas. Backend: `GET /api/invoices/pending`, `PUT /api/invoices/{id}/pay`, `PUT /api/invoices/{id}/overdue` y `POST /api/payments`. |
+| **Ethics** | Usar facturas simuladas y referencias ficticias; no exponer datos financieros reales ni registrar pagos productivos durante la validación. |
+
 --- 
 
 ## 8.2. Experiment Design
 
-El diseño experimental convierte las tres preguntas priorizadas en proposiciones falsables. Cada hipótesis establece una variable independiente, una métrica principal y un umbral de decisión que permite confirmar o rechazar la expectativa del equipo con los datos obtenidos.
+El diseño experimental convierte las preguntas priorizadas y las apuestas To-Be soportadas por el producto en proposiciones falsables. Cada hipótesis establece una variable independiente, una métrica principal y un umbral de decisión que permite confirmar o rechazar la expectativa del equipo con los datos obtenidos.
 
 ### 8.2.1. Hypotheses
 
@@ -3099,6 +3131,20 @@ El diseño experimental convierte las tres preguntas priorizadas en proposicione
 - **Variable dependiente:** mediana de intentos de contacto o consultas de estado durante el escenario.
 - **Hipótesis nula (H0₃):** la mediana de consultas con trazabilidad completa es mayor o igual al 75% de la mediana registrada con información básica; por lo tanto, la reducción es menor al 25%.
 - **Hipótesis alternativa (H1₃):** la mediana de consultas con trazabilidad completa es menor al 75% de la mediana registrada con información básica; por lo tanto, la reducción es de al menos 25%.
+
+#### H04: Aprobación de cotización y ciclo Lead-to-Contract
+
+- **Variable independiente:** canal de formalización utilizado (flujo integrado en PcPedia o coordinación externa por correo/mensajes).
+- **Variable dependiente:** tiempo percibido para pasar de cotización revisada a contrato listo para iniciar.
+- **Hipótesis nula (H0₄):** el flujo integrado no reduce el tiempo percibido en al menos 20% frente al flujo externo, o disminuye la comprensión correcta del monto mensual y total.
+- **Hipótesis alternativa (H1₄):** el flujo integrado reduce el tiempo percibido en al menos 20% frente al flujo externo y mantiene comprensión correcta del monto mensual y total.
+
+#### H05: Priorización de facturas pendientes y errores de registro de pago
+
+- **Variable independiente:** forma de localizar la factura a pagar (lista priorizada de pendientes/vencidas o búsqueda manual en lista general).
+- **Variable dependiente:** proporción de errores de selección de factura durante el registro de pago.
+- **Hipótesis nula (H0₅):** la lista priorizada no reduce los errores de selección de factura en al menos 25% frente a la búsqueda manual.
+- **Hipótesis alternativa (H1₅):** la lista priorizada reduce los errores de selección de factura en al menos 25% frente a la búsqueda manual, sin aumentar pagos asociados a facturas incorrectas.
 ---
 
 ### 8.2.2. Domain Business Metrics
